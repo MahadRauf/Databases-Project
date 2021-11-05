@@ -148,6 +148,12 @@ INSERT INTO `likes` VALUES ('John','Blue Moon'),('Mike','Blue Moon'),('John','Bu
 /*!40000 ALTER TABLE `likes` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
+
+
+
+
+
 --
 -- Table structure for table `account`
 --
@@ -171,6 +177,231 @@ LOCK TABLES `account` WRITE;
 INSERT INTO `account` VALUES ('admin','admin',1),('reps','reps',2);
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user` (
+  `username` varchar(50) NOT NULL DEFAULT '',
+  `reservation` varchar(50) NOT NULL DEFAULT '',
+  `type`  int NOT NULL DEFAULT 0,
+  PRIMARY KEY (`username`),
+  FOREIGN KEY (`username`) REFERENCES `account` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+--
+-- Table structure for table `buy`
+--
+
+DROP TABLE IF EXISTS `buy`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `buy` (
+  `username` varchar(50) NOT NULL DEFAULT '',
+  `ticketNum` int NOT NULL DEFAULT 0,
+  PRIMARY KEY (`username`,`ticketNum`),
+  FOREIGN KEY (`username`) REFERENCES `account` (`username`),
+  FOREIGN KEY (`ticketNum`) REFERENCES `flightticketfor` (`ticketNum`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `change`
+--
+
+DROP TABLE IF EXISTS `change`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `change` (
+  `username` varchar(50) NOT NULL DEFAULT '',
+  `ticketNum` int NOT NULL DEFAULT 0,
+  PRIMARY KEY (`username`,`ticketNum`),
+  FOREIGN KEY (`username`) REFERENCES `account` (`username`),
+  FOREIGN KEY (`ticketNum`) REFERENCES `flightticketfor` (`ticketNum`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `search`
+--
+
+DROP TABLE IF EXISTS `search`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `search` (
+  `username` varchar(50) NOT NULL DEFAULT '',
+  `ticketNum` int NOT NULL DEFAULT 0,
+  `date` date NOT NULL,
+  `isflexible` int NOT NULL DEFAULT 0,
+  
+  PRIMARY KEY (`username`,`ticketNum`),
+  FOREIGN KEY (`username`) REFERENCES `account` (`username`),
+  FOREIGN KEY (`ticketNum`) REFERENCES `flightticketfor` (`ticketNum`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `enter`
+--
+
+DROP TABLE IF EXISTS `enter`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `enter` (
+  `username` varchar(50) NOT NULL DEFAULT '',
+  `ticketNum` int NOT NULL DEFAULT 0,
+
+  PRIMARY KEY (`username`,`ticketNum`),
+  FOREIGN KEY (`username`) REFERENCES `account` (`username`),
+  FOREIGN KEY (`ticketNum`) REFERENCES `flightticketfor` (`ticketNum`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+--
+-- Table structure for table `flightticketfor`
+--
+
+DROP TABLE IF EXISTS `flightticketfor`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `flightticketfor` (
+  `ticketNum` int NOT NULL DEFAULT 0,
+  `idNum` int NOT NULL DEFAULT 0,
+  `flightNum` int NOT NULL DEFAULT 0,
+  `seatNum` int NOT NULL DEFAULT 0,
+  `timePurchased` varchar(50) NOT NULL DEFAULT '',
+  `lastName` varchar(50) NOT NULL DEFAULT '',
+  `firstName` varchar(50) NOT NULL DEFAULT '',
+  `totalFare` float NOT NULL DEFAULT 0,
+  `bookingFee` float NOT NULL DEFAULT 0,
+  `hasFee` float NOT NULL DEFAULT 0,
+  `twoLetID` varchar(2) NOT NULL DEFAULT '',
+  `seats` varchar(10) NOT NULL DEFAULT '',
+  `operatingDays` varchar(50) NOT NULL DEFAULT '',
+
+  
+  PRIMARY KEY (`ticketNum`),
+  FOREIGN KEY (`twoLetID`,`seats`,`operatingDays`,`flightNum`) 
+  REFERENCES `flightBy` (`twoLetID`,`seats`,`operatingDays`,`flightNum`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+--
+-- Table structure for table `waitingList`
+--
+
+DROP TABLE IF EXISTS `waitingList`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `waitingList` (
+  `ticketNum` int NOT NULL DEFAULT 0,
+  PRIMARY KEY (`ticketNum`),
+  FOREIGN KEY (`ticketNum`) REFERENCES `flightticketfor` (`ticketNum`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+--
+-- Table structure for table `airlineCompany`
+--
+
+DROP TABLE IF EXISTS `airlineCompany`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `airlineCompany` (
+  `twoLetID` varchar(2) NOT NULL DEFAULT '',
+  PRIMARY KEY (`twoLetID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+
+--
+-- Table structure for table `aircraft`
+--
+
+DROP TABLE IF EXISTS `aircraft`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `aircraft` (
+  `twoLetID` varchar(2) NOT NULL DEFAULT '',
+  `seats` varchar(10) NOT NULL DEFAULT '',
+  `operatingDays` varchar(50) NOT NULL DEFAULT '',
+
+  
+  PRIMARY KEY (`twoLetID`,`seats`,`operatingDays`),
+  FOREIGN KEY (`twoLetID`) 
+  REFERENCES `airlineCompany` (`twoLetID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+
+
+--
+-- Table structure for table `airport`
+--
+
+DROP TABLE IF EXISTS `airport`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `airport` (
+  `threeLetID` varchar(3) NOT NULL DEFAULT '',
+  PRIMARY KEY (`threeLetID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+
+
+--
+-- Table structure for table `flightBy`
+--
+
+DROP TABLE IF EXISTS `flightBy`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `flightBy` (
+  `flightNum` int NOT NULL DEFAULT 0,
+  `twoLetID` varchar(2) NOT NULL DEFAULT '',
+  `seats` varchar(10) NOT NULL DEFAULT '',
+  `operatingDays` varchar(50) NOT NULL DEFAULT '',
+  `fromAirport` varchar(50) NOT NULL DEFAULT '',
+  `toAirport` varchar(50) NOT NULL DEFAULT '',
+  `departureDate` date NOT NULL,
+  `isDomestic` int NOT NULL DEFAULT 0,
+  `isOneWay` int NOT NULL DEFAULT 0,
+  PRIMARY KEY (`twoLetID`,`seats`,`operatingDays`,`flightNum`),
+  FOREIGN KEY (`twoLetID`,`seats`,`operatingDays`) 
+  REFERENCES `aircraft` (`twoLetID`,`seats`,`operatingDays`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+--
+-- Table structure for table `operates`
+--
+
+DROP TABLE IF EXISTS `operates`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `operates` (
+  `threeLetID` varchar(3) NOT NULL DEFAULT '',
+  `twoLetID` varchar(3) NOT NULL DEFAULT '',
+  PRIMARY KEY (`threeLetID`,`twoLetID`),
+  FOREIGN KEY (`threeLetID`) REFERENCES `airport` (`threeLetID`),
+  FOREIGN KEY (`twoLetID`) REFERENCES `airlineCompany` (`twoLetID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
