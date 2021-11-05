@@ -10,6 +10,10 @@
 <title>Log in Succesful!</title>
 </head>
 <body>
+
+
+
+
 	<%
 	try {
 
@@ -41,14 +45,28 @@
 		ps.executeUpdate();
 		//Run the query against the DB
 		
+		
 		//Close the connection. Don't forget to do it, otherwise you're keeping the resources of the server allocated.
 		con.close();
 		out.print("You are now logged in. We hope you enjoy Taka Travels.");
 		
-	} catch (Exception ex) {
+%>		
+Log out!
+	<br>
+		<form method="get" action="HelloWorld.jsp">
+			<input type="submit" value="Log out!">
+		</form>
+	<br>
+	<%
+	} 
+	
+	
+	catch (Exception ex) {
 		out.print(ex);
 		out.print("insert failed");
+		
 	}
 %>
+
 </body>
 </html>
