@@ -23,7 +23,8 @@
 		//Get parameters from the HTML form at the index.jsp
 		String newBar = request.getParameter("bar");
 		String newBeer = request.getParameter("beer");
-		float price = Float.valueOf(request.getParameter("price"));
+		//made constant to maintain usability
+		float price = 4;
 
 
 		//Make an insert statement for the Sells table:
