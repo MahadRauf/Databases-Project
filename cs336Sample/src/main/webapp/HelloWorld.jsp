@@ -37,55 +37,37 @@
 		</form>
 		<br> -->
 	
-	Log in to your account or I will give you the death penalty!
+	Log in to your account!
 	<br>
-		<form method="get" action="sellsNewBeer.jsp">
+		<form method="get" action="LogIn.jsp">
 			<table>
 				<tr>    
-					<td>Username</td><td><input type="text" name="barvalia"></td>
+					<td>Username</td><td><input type="text" name="username"></td>
 				</tr>
 				<tr>
-					<td>Password</td><td><input type="text" name="beer"></td>
+					<td>Password</td><td><input type="text" name="password"></td>
 				</tr>
-				<!-- <tr>
-					<td>To be deleted</td><td><input type="text" name="price"></td>
-				</tr>
-				-->
 			</table>
 			<input type="submit" value="Log in!">
 		</form>
 	<br>
 	
 	
-	If you don't have an account, register or I will give you the death penalty!
+	If you don't have an account, register!
 	<br>
-		<form method="post" action="newBarBeerPrice.jsp">
+		<form method="post" action="AccountRegistration.jsp">
 		<table>
 		<tr>    
-		<td>New Username</td><td><input type="text" name="bar"></td>
+		<td>New Username</td><td><input type="text" name="username"></td>
 		</tr>
 		<tr>
-		<td>Password</td><td><input type="text" name="beer"></td>
+		<td>Password</td><td><input type="text" name="password"></td>
 		</tr>
-		<!-- <tr>
-		<td>To be deleted</td><td><input type="text" name="price"></td>
-		</tr> -->
 		</table>
 		<input type="submit" value="Register!">
 		</form>
 	<br>
 	
-	<!--  To be removed: -->
-	<!--  <br>
-		<form method="get" action="query.jsp">
-			<select name="price" size=1>
-				<option value="3.0">$3.0 and tbd</option>
-				<option value="5.0">$5.0 and tbd</option>
-				<option value="8.0">$8.0 and tbd</option>
-			</select>&nbsp;<br> <input type="submit" value="submit">
-		</form>
-	<br>
-	-->
 
 </body>
 </html>
