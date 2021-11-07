@@ -26,11 +26,18 @@
 
 		//Get parameters from the HTML form at the index.jsp
 		String name = request.getParameter("username");
+		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		//made constant to maintain usability
 		float num = 0;
 
-		
+		String select = "SELECT username FROM account WHERE username = ?";
+		PreparedStatement pd = con.prepareStatement(select);
+		pd.setString(1, username);
+		ResultSet rs = pd.executeQuery();
+		if(rs.next()){
+			response.sendRedirect("HelloWorld.jsp");
+		}
 		//Make an insert statement for the accounts table:
 		String insert = "INSERT INTO account(username, password, type)"
 				+ "VALUES (?, ?, ?)";
