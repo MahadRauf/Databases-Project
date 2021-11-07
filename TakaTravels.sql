@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `BarBeerDrinkerSample` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE  IF NOT EXISTS `TakaTravels` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `BarBeerDrinkerSample`;
 -- MySQL dump 10.13  Distrib 5.7.17, for macos10.12 (x86_64)
 --
