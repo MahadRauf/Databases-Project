@@ -10,36 +10,36 @@
 	<br>
 		<form method="get" action="SearchResult.jsp">
 				<div>
-		  <input type="radio" id="isoneway" name="isoneway" value="1"
+		  <input type="radio" id="isoneway" name=isOneWay value="1"
 		         checked>
 		  <label for="oneway">One Way</label>
 		</div>
 		
 		<div>
-		  <input type="radio" id="roundtrip" name="isoneway" value="0">
+		  <input type="radio" id="roundtrip" name="isOneWay" value="0">
 		  <label for="roundtrip">Round Trip</label>
 		</div>
 		
 		<div>
-		  <input type="radio" id="both" name="isoneway" value="2">
+		  <input type="radio" id="both" name="isOneWay" value="2">
 		  <label for="both">One Way or Round Trip</label>
 		</div>
 				
 				
 		<div>
-		  <input type="radio" id="domestic" name="isdomestic" value="1"
+		  <input type="radio" id="domestic" name="isDomestic" value="1"
 		  	checked>
 		  <label for="domestic">Domestic</label>
 		</div>
 		
 		<div>
-		  <input type="radio" id="international" name="isdomestic" value="0">
+		  <input type="radio" id="international" name="isDomestic" value="0">
 		  <label for="international">One Way or Round Trip</label>
 		</div>		
 		
 <div>
 <label for="start">Start date:</label>
-<input type="date" id="start" name="trip-start"
+<input type="date" id="start" name="tripStart"
        value="2022-01-01"
        placeholder="dd-mm-yyyy"
        min="2022-01-01" max="2022-12-31">
@@ -48,7 +48,7 @@
       
       <div>
       <label for="end">End date:</label>
-<input type="date" id="end" name="trip-end"
+<input type="date" id="end" name="tripEnd"
        value="2022-01-01"
        placeholder="dd-mm-yyyy"
        min="2022-01-01" max="2022-12-31">
