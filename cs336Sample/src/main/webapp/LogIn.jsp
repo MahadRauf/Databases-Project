@@ -21,7 +21,7 @@
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		
-		String select = "SELECT username, password FROM account WHERE username = ? AND password = ?";
+		String select = "SELECT username, password, type FROM account WHERE username = ? AND password = ?";
 		//Run the query against the database.
 		PreparedStatement ps = con.prepareStatement(select);
 		ps.setString(1, username);
@@ -29,8 +29,19 @@
 		ResultSet rs = ps.executeQuery();
 		
 		if(rs.next()){
-			con.close();
+			
 			out.print("Login succeeded!");
+			out.print(rs.getString("username"));
+			if(rs.getInt("type")==0){
+				%>		
+				<br>
+					<form method="get" action="UserHomePage.jsp">
+						<input type="submit" value="Home Page!">
+					</form>
+				<br>
+				<%
+			}
+		
 			%>		
 				<br>
 					<form method="get" action="HelloWorld.jsp">
@@ -38,6 +49,7 @@
 					</form>
 				<br>
 				<%
+			con.close();
 		}
 		else{
 			//out.print("incorrect username/password");
