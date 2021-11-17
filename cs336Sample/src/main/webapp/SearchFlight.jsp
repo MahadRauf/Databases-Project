@@ -46,21 +46,13 @@
       
       </div>
       
-      <div>
-      <label for="end">End date:</label>
-<input type="date" id="end" name="tripEnd"
-       value="2022-01-01"
-       placeholder="dd-mm-yyyy"
-       min="2022-01-01" max="2022-12-31">
-      
-      </div>
       
 <table>
 				<tr>    
-					<td>start</td><td><input type="date" name="username"></td>
+					<td>From Airport</td><td><input type="text" name="fromAirport"></td>
 				</tr>
 				<tr>
-					<td>end</td><td><input type="date" name="password"></td>
+					<td>To Airport</td><td><input type="text" name="toAirport"></td>
 				</tr>
 			</table>
 			<input type="submit" value="Search!">
