@@ -22,7 +22,7 @@
 		
 		<div>
 		  <input type="radio" id="both" name="isOneWay" value=2>
-		  <label for="both">One Way or Round Trip</label>
+		  <label for="both">One Way or Round Trip (+/- 3 days) </label>
 		</div>
 				
 				
@@ -34,7 +34,7 @@
 		
 		<div>
 		  <input type="radio" id="international" name="isDomestic" value=0>
-		  <label for="international">One Way or Round Trip</label>
+		  <label for="international">International</label>
 		</div>		
 		
 <div>
@@ -66,7 +66,39 @@
 				
 			</select>&nbsp;<br> 
 			
+			Optional:<br> 
+			<label for="priceFilter">Prices </label>
+			<select name="priceFilter"  id="priceFilter" size=1>
+				<option value=0>equal to </option>
+				<option value=1>below</option>
+				<option value=2>above</option>
+			</select>&nbsp;
+		<label for="price">$</label>
+		  <input type="text" id="price" name="price">
+		  <br> 
+		  
+					<label for="numStopFilter">Number of stops: </label>
+			<select name="numStopFilter"  id="numStopFilter" size=1>
+				<option value=0>equal to </option>
+				<option value=1>below</option>
+				<option value=2>above</option>
+			</select>&nbsp;
+		<label for="numStop">$</label>
+		  <input type="text" id="numStop" name="numStop">
+		  <br> 
 			
+					<label for="airline">Airline: </label>
+		  <input type="text" id="airline" name="airline">
+			<br> 
+			
+			
+			<label for="takeoff">Take-off Time:</label>
+		  <input type="time" id="takeoff" name="takeoff">
+			<br> 
+			
+			<label for="landing">Landing Time:</label>
+		  <input type="time" id="landing" name="landing">
+			<br> 
 			
 			<input type="submit" value="Search!">
 		</form>
