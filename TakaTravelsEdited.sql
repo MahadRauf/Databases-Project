@@ -187,7 +187,11 @@ CREATE TABLE `airlineCompany` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-
+LOCK TABLES `airlineCompany` WRITE;
+/*!40000 ALTER TABLE `airlineCompany` DISABLE KEYS */;
+INSERT INTO `airlineCompany` VALUES ('AA'),('DL'),('UA'),('WN');
+/*!40000 ALTER TABLE `airlineCompany` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `aircraft`
@@ -224,7 +228,11 @@ CREATE TABLE `airport` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-
+LOCK TABLES `airport` WRITE;
+/*!40000 ALTER TABLE `airport` DISABLE KEYS */;
+INSERT INTO `airport` VALUES ('EWR'),('LGA'),('JFK');
+/*!40000 ALTER TABLE `airport` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 --
