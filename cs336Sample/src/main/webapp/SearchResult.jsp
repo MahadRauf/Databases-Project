@@ -41,14 +41,62 @@
 			throw new Exception();
 		}
 		
-		String select = "SELECT departureDate, fromAirport, toAirport "
-				+"FROM flightBy "
-				+"WHERE departureDate = ? "
-				+"AND fromAirport = ? "
-				+"AND toAirport = ? "
-				+"AND isOneWay = ? "
-				+"AND isDomestic = ?";
+		Integer sortBy = Integer.valueOf(request.getParameter("sort"));
+		
+		String select = "SELECT f.departureDate, f.fromAirport, f.toAirport, t.totalFare "
+				+"FROM flightBy f, flightticketfor t "
+				+"WHERE f.departureDate = ? "
+				+"AND f.fromAirport = ? "
+				+"AND f.toAirport = ? "
+				+"AND f.isOneWay = ? "
+				+"AND f.isDomestic = ? "
+				+"AND f.flightNum = t.flightNum ";
+		
+		Integer priceFilter = Integer.valueOf(request.getParameter("priceFilter"));
+		String sprice = request.getParameter("price");
+		if(!sprice.isEmpty()){
+			Integer price = Integer.valueOf(sprice);
+			select += "AND t.totalFare ";
+			switch(sortBy){
+			case 0:
+				select += "=";
+				break;
+			case 1:
+				select += "<";
+				break;
+			case 2:
+				select += ">";
+				break;
+			default:
+				throw new Exception();
+				break;
+			}		
+			select += " ? ";
+		}
+
+		
+		
 		//Run the query against the database.
+		switch(sortBy){
+			case 0:
+				break;
+			case 1:
+				select += "ORDER BY t.totalFare ";
+				break;
+			case 2:
+				select += "ORDER BY f.takeoff ";
+				break;
+			case 3:
+				select += "ORDER BY f.landing ";
+				break;
+			case 4:
+				select += "ORDER BY  f.landing - f.takeoff ";
+				break;
+			default:
+				break;
+		}
+		
+		
 		
 		out.print("before prepare");
 		

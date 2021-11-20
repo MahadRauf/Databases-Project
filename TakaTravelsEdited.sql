@@ -252,6 +252,8 @@ CREATE TABLE `flightBy` (
   `departureDate` date NOT NULL,
   `isDomestic` int NOT NULL DEFAULT 0,
   `isOneWay` int NOT NULL DEFAULT 0,
+  `takeoff` time NOT NULL,
+  `landing` time NOT NULL,
   PRIMARY KEY (`twoLetID`,`seats`,`operatingDays`,`flightNum`),
   FOREIGN KEY (`twoLetID`,`seats`,`operatingDays`) 
   REFERENCES `aircraft` (`twoLetID`,`seats`,`operatingDays`)
