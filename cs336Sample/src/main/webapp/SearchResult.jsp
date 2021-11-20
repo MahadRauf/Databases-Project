@@ -52,12 +52,14 @@
 				+"AND f.isDomestic = ? "
 				+"AND f.flightNum = t.flightNum ";
 		
+		ArrayList <Integer> optional = new ArrayList<Integer>();
+		
 		Integer priceFilter = Integer.valueOf(request.getParameter("priceFilter"));
 		String sprice = request.getParameter("price");
 		if(!sprice.isEmpty()){
 			Integer price = Integer.valueOf(sprice);
 			select += "AND t.totalFare ";
-			switch(sortBy){
+			switch(priceFilter){
 			case 0:
 				select += "=";
 				break;
@@ -72,9 +74,38 @@
 				break;
 			}		
 			select += " ? ";
+			optional.add(price);
 		}
 
+		Integer numStopFilter = Integer.valueOf(request.getParameter("numStopFilter"));
+		String snumStop = request.getParameter("numStop");
+		if(!sprice.isEmpty()){
+			Integer numStop = Integer.valueOf(snumStop);
+			select += "AND t.totalFare ";
+			switch(numStopFilter){
+			case 0:
+				select += "=";
+				break;
+			case 1:
+				select += "<";
+				break;
+			case 2:
+				select += ">";
+				break;
+			default:
+				throw new Exception();
+				break;
+			}		
+			select += " ? ";
+			optional.add(numStop);
+		}
 		
+		String airline = request.getParameter("airline");
+		if(!airline.isEmpty()){
+			select += "AND f.twoLetID = ? ";	
+			//optional.add(price);
+		}
+
 		
 		//Run the query against the database.
 		switch(sortBy){
