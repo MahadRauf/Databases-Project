@@ -12,6 +12,7 @@
 </head>
 <body>
 	<%
+
 	try {
 		out.print("At search Result\n");
 		//Get the database connection
@@ -106,6 +107,15 @@
 			//optional.add(price);
 		}
 
+		String takeoff = request.getParameter("takeoff");
+		if(!takeoff.isEmpty()){
+			select += "AND f.takeoff = ? ";	
+		}
+		String landing = request.getParameter("landing");
+		if(!landing.isEmpty()){
+			select += "AND f.takeoff = ? ";	
+		}
+		
 		
 		//Run the query against the database.
 		switch(sortBy){
@@ -127,7 +137,7 @@
 				break;
 		}
 		
-		
+
 		
 		out.print("before prepare");
 		
