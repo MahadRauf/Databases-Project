@@ -8,6 +8,8 @@
 </head>
 <body>
 	<br>
+	Trip Type:
+	<br>
 		<form method="get" action="SearchResult.jsp">
 				<div>
 		  <input type="radio" id="isoneway" name=isOneWay value=1
@@ -25,7 +27,8 @@
 		  <label for="both">One Way or Round Trip (+/- 3 days) </label>
 		</div>
 				
-				
+	Flight Type:
+	<br>			
 		<div>
 		  <input type="radio" id="domestic" name="isDomestic" value=1
 		  	checked>
@@ -83,7 +86,7 @@
 				<option value=1>below</option>
 				<option value=2>above</option>
 			</select>&nbsp;
-		<label for="numStop">$</label>
+		<label for="numStop"></label>
 		  <input type="text" id="numStop" name="numStop">
 		  <br> 
 			

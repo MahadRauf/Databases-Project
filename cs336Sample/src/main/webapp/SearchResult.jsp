@@ -53,7 +53,14 @@
 				+"AND f.isDomestic = ? "
 				+"AND f.flightNum = t.flightNum ";
 		
-		ArrayList <Integer> optional = new ArrayList<Integer>();
+		final int hasPriceFilter = 1;
+		final int hasNumStopFilter = 2;
+		final int hasAirline = 3;
+		final int hasTakeOff = 4;
+		final int hasLanding = 5;
+		
+		HashMap<Integer, String> optional = new HashMap<Integer, String>();
+
 		
 		Integer priceFilter = Integer.valueOf(request.getParameter("priceFilter"));
 		String sprice = request.getParameter("price");
@@ -75,7 +82,7 @@
 				break;
 			}		
 			select += " ? ";
-			optional.add(price);
+			optional.put(hasPriceFilter,sprice);
 		}
 
 		Integer numStopFilter = Integer.valueOf(request.getParameter("numStopFilter"));
@@ -98,22 +105,24 @@
 				break;
 			}		
 			select += " ? ";
-			optional.add(numStop);
+			optional.put(hasNumStopFilter,snumStop);
 		}
 		
 		String airline = request.getParameter("airline");
 		if(!airline.isEmpty()){
 			select += "AND f.twoLetID = ? ";	
-			//optional.add(price);
+			optional.put(hasAirline, airline);
 		}
 
 		String takeoff = request.getParameter("takeoff");
 		if(!takeoff.isEmpty()){
-			select += "AND f.takeoff = ? ";	
+			select += "AND f.takeoff = ? ";
+			optional.put(hasTakeOff, airline);
 		}
 		String landing = request.getParameter("landing");
 		if(!landing.isEmpty()){
-			select += "AND f.takeoff = ? ";	
+			select += "AND f.landing = ? ";	
+			optional.put(hasLanding, landing);
 		}
 		
 		
@@ -147,6 +156,24 @@
 		ps.setString(3, toAirport);
 		ps.setInt(4, isOneWay);
 		ps.setInt(5, isDomestic);
+		
+		int index = 6;
+		for(int key: optional.keySet()){
+			switch(key){
+			  case hasPriceFilter:
+			  case hasNumStopFilter:
+				  ps.setInt(index, Integer.valueOf(optional.get(key)));
+				  break;
+			  case hasAirline:
+			  case hasTakeOff:
+			  case hasLanding:
+				  ps.setString(index, optional.get(key));
+				  break;
+			  default:
+				  break;
+			}
+			index++;
+		}
 		
 		out.print("before result");
 		
