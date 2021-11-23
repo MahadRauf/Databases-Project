@@ -217,15 +217,10 @@
 			out.print(rs.getString("toAirport"));
 			out.print("</td>");
 			out.print("</tr>");
-
 		}
 		out.print("</table>");
-
 		//close the connection.
 		con.close();
-		
-		
-		
 		//Close the connection. Don't forget to do it, otherwise you're keeping the resources of the server allocated.
 		
 		
