@@ -187,15 +187,15 @@
 		//make a column
 		out.print("<td>");
 		//print out column header
-		out.print("bar");
+		out.print("departureDate");
 		out.print("</td>");
 		//make a column
 		out.print("<td>");
-		out.print("beer");
+		out.print("fromAirport");
 		out.print("</td>");
 		//make a column
 		out.print("<td>");
-		out.print("price");
+		out.print("toAirport");
 		out.print("</td>");
 		out.print("</tr>");
 
