@@ -217,6 +217,8 @@ CREATE TABLE `flightBy` (
   `departureDate` date NOT NULL,
   `arrivalDate` date NOT NULL,
   `type` int NOT NULL DEFAULT 0, /* 0:domestic, 1: international. one-way/round in ticket lmk */
+  `takeoff` time NOT NULL,
+  `landing` time NOT NULL,
   PRIMARY KEY (`twoLetID`,`AircraftID`,`flightNum`),
   FOREIGN KEY (`twoLetID`,`AircraftID`) 
   REFERENCES `aircraft` (`twoLetID`,`AircraftID`)
@@ -224,7 +226,7 @@ CREATE TABLE `flightBy` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 LOCK TABLES `flightBy` WRITE;
 /*!40000 ALTER TABLE `flightBy` DISABLE KEYS */;
-INSERT INTO `flightBy` VALUES (0001, 'AA', 001, 'EWR', 'LAX', '2021-11-20', '2021-11-21', 0);
+INSERT INTO `flightBy` VALUES (0001, 'AA', 001, 'EWR', 'LAX', '2021-11-20', '2021-11-21', 0, '5:00', '10:00');
 /*!40000 ALTER TABLE `flightBy` ENABLE KEYS */;
 UNLOCK TABLES;
 
