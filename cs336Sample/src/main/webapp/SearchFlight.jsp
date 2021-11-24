@@ -48,6 +48,15 @@
        min="2022-01-01" max="2022-12-31">
       
       </div>
+  
+<div>
+<label for="end">End date:</label>
+<input type="date" id="end" name="arrivalDate"
+       value="2022-01-02"
+       placeholder="dd-mm-yyyy"
+       min="2022-01-01" max="2022-12-31">
+      
+      </div>  
       
       
 	<table>

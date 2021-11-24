@@ -30,6 +30,9 @@
 		java.util.Date date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("departureDate")); 
 		java.sql.Date departureDate = new java.sql.Date(date.getTime()); 
 		
+		date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("arrivalDate")); 
+		java.sql.Date arrivalDate = new java.sql.Date(date.getTime()); 
+		
 		out.print("After date\n");
 		
 		String fromAirport = request.getParameter("fromAirport");
