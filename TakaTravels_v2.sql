@@ -1,3 +1,4 @@
+
 CREATE DATABASE  IF NOT EXISTS `TakaTravels` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `TakaTravels`;
 -- MySQL dump 10.13  Distrib 5.7.17, for macos10.12 (x86_64)
@@ -29,8 +30,8 @@ CREATE TABLE `account` (
   `username` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
   `type`  int NOT NULL DEFAULT 0,
-  `lastname` varchar(50) NOT NULL, /* there was a question on piazza that said these should be here idk */
-  `firstname` varchar(50) NOT NULL,
+  `lastname` varchar(50) NOT NULL default "", /* there was a question on piazza that said these should be here idk */
+  `firstname` varchar(50) NOT NULL default "",
   `ID#` int,
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

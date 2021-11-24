@@ -23,7 +23,7 @@
 		Statement stmt = con.createStatement();
 
 		//Get parameters from the HTML form at the index.jsp
-		String name = request.getParameter("username");
+		//String name = request.getParameter("username");
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		//made constant to maintain usability
@@ -43,7 +43,7 @@
 		PreparedStatement ps = con.prepareStatement(insert);
 
 		//Add parameters of the query. Start with 1, the 0-parameter is the INSERT statement itself
-		ps.setString(1, name);
+		ps.setString(1, username);
 		ps.setString(2, password);
 		ps.setFloat(3, num);
 		//Run the query against the DB
