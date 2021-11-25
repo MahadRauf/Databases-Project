@@ -219,6 +219,7 @@ CREATE TABLE `flightBy` (
   `type` int NOT NULL DEFAULT 0, /* 0:domestic, 1: international. one-way/round in ticket lmk */
   `takeoff` time NOT NULL,
   `landing` time NOT NULL,
+  
   PRIMARY KEY (`twoLetID`,`AircraftID`,`flightNum`),
   FOREIGN KEY (`twoLetID`,`AircraftID`) 
   REFERENCES `aircraft` (`twoLetID`,`AircraftID`)
@@ -226,7 +227,27 @@ CREATE TABLE `flightBy` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 LOCK TABLES `flightBy` WRITE;
 /*!40000 ALTER TABLE `flightBy` DISABLE KEYS */;
-INSERT INTO `flightBy` VALUES (0001, 'AA', 001, 'EWR', 'LAX', '2021-11-20', '2021-11-21', 0, '5:00', '10:00');
+INSERT INTO `flightBy` VALUES 
+(1, 'AA', 1, 'EWR', 'LAX', '2022-1-1', '2022-1-2', 0, '5:00', '10:00'),
+(2, 'AA', 1, 'LAX', 'EWR', '2022-1-3', '2022-1-4', 0, '5:00', '10:00'),
+(3, 'AA', 1, 'JFK', 'LAX', '2022-1-1', '2022-1-2', 0, '8:00', '13:00'),
+(4, 'AA', 1, 'LAX', 'JFK', '2022-1-3', '2022-1-4', 0, '12:00', '17:00'),
+
+(5, 'DL', 1, 'EWR', 'LAX', '2022-1-1', '2022-1-2', 0, '4:00', '9:00'),
+(6, 'DL', 1, 'LAX', 'EWR', '2022-1-3', '2022-1-4', 0, '8:00', '13:00'),
+(7, 'DL', 1, 'JFK', 'LAX', '2022-1-1', '2022-1-2', 0, '20:00', '1:00'),
+(8, 'DL', 1, 'LAX', 'JFK', '2022-1-3', '2022-1-4', 0, '15:00', '20:00'),
+
+(9, 'UA', 1, 'EWR', 'LAX', '2022-1-1', '2022-1-2', 0, '10:00', '15:00'),
+(10, 'UA', 1, 'LAX', 'EWR', '2022-1-3', '2022-1-4', 0, '7:00', '12:00'),
+(11, 'UA', 1, 'JFK', 'LAX', '2022-1-1', '2022-1-2', 0, '13:00', '18:00'),
+(12, 'UA', 1, 'LAX', 'JFK', '2022-1-3', '2022-1-4', 0, '12:00', '17:00'),
+
+(13, 'WN', 1, 'EWR', 'LAX', '2022-1-1', '2022-1-2', 0, '11:00', '16:00'),
+(14, 'WN', 1, 'LAX', 'EWR', '2022-1-3', '2022-1-4', 0, '6:00', '11:00'),
+(15, 'WN', 1, 'JFK', 'LAX', '2022-1-1', '2022-1-2', 0, '15:00', '20:00'),
+(16, 'WN', 1, 'LAX', 'JFK', '2022-1-3', '2022-1-4', 0, '13:00', '18:00')
+;
 /*!40000 ALTER TABLE `flightBy` ENABLE KEYS */;
 UNLOCK TABLES;
 

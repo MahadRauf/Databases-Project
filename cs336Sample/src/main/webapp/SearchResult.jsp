@@ -21,18 +21,14 @@
 		//Create a SQL statement
 		Statement stmt = con.createStatement();
 		//Get parameters from the HTML form at the SearchFlight.jsp
+
+		
 		
 		Integer isOneWay = Integer.valueOf(request.getParameter("isOneWay"));
-		Integer isDomestic = Integer.valueOf(request.getParameter("isDomestic"));
-		
 		out.print("After integer\n");
-		
 		java.util.Date date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("departureDate")); 
 		java.sql.Date departureDate = new java.sql.Date(date.getTime()); 
-		
-		date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("arrivalDate")); 
-		java.sql.Date arrivalDate = new java.sql.Date(date.getTime()); 
-		
+			
 		out.print("After date\n");
 		
 		String fromAirport = request.getParameter("fromAirport");
@@ -47,15 +43,28 @@
 		
 		Integer sortBy = Integer.valueOf(request.getParameter("sort"));
 		
-		String select = "SELECT f.departureDate, f.fromAirport, f.toAirport, t.totalFare "
+		java.sql.Date arrivalDate = null;
+		if(isOneWay != 0){
+			date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("arrivalDate")); 
+			arrivalDate = new java.sql.Date(date.getTime()); 
+		}
+		
+		String select = "SELECT * "
+			+"FROM flightBy f "
+			+"WHERE f.departureDate = ? "
+			+"AND f.fromAirport = ? "
+			+"AND f.toAirport = ? ";
+			
+		String select2 = "";
+
+		if(isOneWay == 1){
+			 select += "UNION SELECT * "
 				+"FROM flightBy f, flightticketfor t "
-				+"WHERE f.departureDate = ? "
+				+"WHERE f.arrivalDate = ? "
 				+"AND f.fromAirport = ? "
 				+"AND f.toAirport = ? "
-				+"AND f.isOneWay = ? "
-				+"AND f.isDomestic = ? "
 				+"AND f.flightNum = t.flightNum ";
-		
+		}
 		final int hasPriceFilter = 1;
 		final int hasNumStopFilter = 2;
 		final int hasAirline = 3;
@@ -82,7 +91,6 @@
 				break;
 			default:
 				throw new Exception();
-				break;
 			}		
 			select += " ? ";
 			optional.put(hasPriceFilter,sprice);
@@ -105,7 +113,6 @@
 				break;
 			default:
 				throw new Exception();
-				break;
 			}		
 			select += " ? ";
 			optional.put(hasNumStopFilter,snumStop);
@@ -157,10 +164,14 @@
 		ps.setDate(1, departureDate);
 		ps.setString(2, fromAirport);
 		ps.setString(3, toAirport);
-		ps.setInt(4, isOneWay);
-		ps.setInt(5, isDomestic);
 		
-		int index = 6;
+		int index = 4;
+		if(isOneWay == 1){
+			ps.setDate(index++, arrivalDate);
+			ps.setString(index++, fromAirport);
+			ps.setString(index++, toAirport);
+		}
+		
 		for(int key: optional.keySet()){
 			switch(key){
 			  case hasPriceFilter:
@@ -177,20 +188,32 @@
 			}
 			index++;
 		}
+				
+			
 		
 		out.print("before result");
-		
 		ResultSet rs = ps.executeQuery();
 		
 		//Make an HTML table to show the results in:
 		out.print("<table>");
-
 		//make a row
 		out.print("<tr>");
 		//make a column
 		out.print("<td>");
 		//print out column header
 		out.print("departureDate");
+		out.print("</td>");
+		//print out column header
+		out.print("<td>");
+		out.print("takeoff");
+		out.print("</td>");
+		//print out column header
+		out.print("<td>");
+		out.print("arrivalDate");
+		out.print("</td>");
+		//print out column header
+		out.print("<td>");
+		out.print("landing");
 		out.print("</td>");
 		//make a column
 		out.print("<td>");
@@ -200,6 +223,15 @@
 		out.print("<td>");
 		out.print("toAirport");
 		out.print("</td>");
+		//make a price
+		out.print("<td>");
+		out.print("price");
+		out.print("</td>");
+		//make a price
+		out.print("<td>");
+		out.print("flightNum");
+		out.print("</td>");
+		
 		out.print("</tr>");
 
 		//parse out the results
@@ -209,16 +241,37 @@
 			//make a column
 			out.print("<td>");
 			//Print out current bar name:
-			out.print(rs.getString("departureDate"));
+			out.print(rs.getDate("departureDate"));
+			out.print("</td>");
+			out.print("<td>");
+			//Print out current bar name:
+			out.print(rs.getString("takeoff"));
 			out.print("</td>");
 			out.print("<td>");
 			//Print out current beer name:
+			out.print(rs.getDate("arrivalDate"));
+			out.print("</td>");
+			out.print("<td>");
+			//Print out current bar name:
+			out.print(rs.getString("landing"));
+			out.print("</td>");
+			out.print("<td>");
+			//make a column
 			out.print(rs.getString("fromAirport"));
 			out.print("</td>");
 			out.print("<td>");
 			//Print out current price
 			out.print(rs.getString("toAirport"));
 			out.print("</td>");
+			out.print("<td>");
+			//Print out current price
+			out.print("totalFare");
+			out.print("</td>");
+			out.print("<td>");
+			//Print out current price
+			out.print(rs.getString("flightNum"));
+			out.print("</td>");
+			
 			out.print("</tr>");
 		}
 		out.print("</table>");

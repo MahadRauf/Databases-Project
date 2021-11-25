@@ -12,13 +12,13 @@
 	<br>
 		<form method="get" action="SearchResult.jsp">
 				<div>
-		  <input type="radio" id="isoneway" name=isOneWay value=1
+		  <input type="radio" id="isoneway" name=isOneWay value=0
 		         checked>
 		  <label for="oneway">One Way</label>
 		</div>
 		
 		<div>
-		  <input type="radio" id="roundtrip" name="isOneWay" value=0>
+		  <input type="radio" id="roundtrip" name="isOneWay" value=1>
 		  <label for="roundtrip">Round Trip</label>
 		</div>
 		
@@ -27,18 +27,7 @@
 		  <label for="both">One Way or Round Trip (+/- 3 days) </label>
 		</div>
 				
-	Flight Type:
-	<br>			
-		<div>
-		  <input type="radio" id="domestic" name="isDomestic" value=1
-		  	checked>
-		  <label for="domestic">Domestic</label>
-		</div>
-		
-		<div>
-		  <input type="radio" id="international" name="isDomestic" value=0>
-		  <label for="international">International</label>
-		</div>		
+
 		
 <div>
 <label for="start">Start date:</label>
@@ -61,10 +50,10 @@
       
 	<table>
 				<tr>    
-					<td>From Airport</td><td><input type="text" name="fromAirport"></td>
+					<td>From Airport</td><td><input type="text" name="fromAirport" value="EWR"></td>
 				</tr>
 				<tr>
-					<td>To Airport</td><td><input type="text" name="toAirport"></td>
+					<td>To Airport</td><td><input type="text" name="toAirport" value="LAX"></td>
 				</tr>
 			</table>
 			
@@ -115,5 +104,9 @@
 			<input type="submit" value="Search!">
 		</form>
 	<br>
+	<br>
+		<form method="get" action="ShowAll.jsp">
+		<input type="submit" value="Show All">
+		</form>
 </body>
 </html>
