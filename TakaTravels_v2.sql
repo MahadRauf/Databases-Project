@@ -109,7 +109,7 @@ DROP TABLE IF EXISTS `flightticketfor`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `flightticketfor` (
-  `ticketNum` int NOT NULL,
+  `ticketNum` int NOT NULL AUTO_INCREMENT,
   `seatNum` int NOT NULL,
   `totalFare` float NOT NULL,
   `bookingFee` float NOT NULL,
@@ -130,14 +130,67 @@ CREATE TABLE `flightticketfor` (
 LOCK TABLES `flightticketfor` WRITE;
 /*!40000 ALTER TABLE `flightticketfor` DISABLE KEYS */;
 INSERT INTO `flightticketfor` VALUES 
-(0001, 01, 999999.99, 1000.00, 0, 0, 'EWR', 'LAX', 'AA', 001, 0001), 
-(0002, 02, 999999.99, 1000.00, 0, 0, 'EWR', 'LAX', 'AA', 001, 0001), 
-(0003, 03, 999999.99, 1000.00, 0, 0, 'EWR', 'LAX', 'AA', 001, 0001), 
-(0004, 04, 999999.99, 1000.00, 0, 0, 'EWR', 'LAX', 'AA', 001, 0001),
-(0005, 05, 9999999.99, 1000.00, 2, 0, 'EWR', 'LAX', 'AA', 001, 0001), 
-(0006, 06, 9999999.99, 1000.00, 2, 0, 'EWR', 'LAX', 'AA', 001, 0001), 
-(0007, 07, 9999999.99, 1000.00, 2, 0, 'EWR', 'LAX', 'AA', 001, 0001), 
-(0008, 08, 9999999.99, 1000.00, 2, 0, 'EWR', 'LAX', 'AA', 001, 0001);
+(NULL, 1, 150.00, 25.00, 0, 0, 'EWR', 'LAX', 'AA', 1, 1), 
+(NULL, 2, 400.00, 25.00, 1, 0, 'EWR', 'LAX', 'AA', 1, 1), 
+(NULL, 3, 1000.00, 25.00, 2, 0, 'EWR', 'LAX', 'AA', 1, 1),
+(NULL, 1, 150.00, 25.00, 0, 0, 'LAX', 'EWR', 'AA', 1, 2), 
+(NULL, 2, 400.00, 25.00, 1, 0, 'LAX', 'EWR', 'AA', 1, 2), 
+(NULL, 3, 1000.00, 25.00, 2, 0, 'LAX', 'EWR', 'AA', 1, 2),
+(NULL, 1, 150.00, 25.00, 0, 0, 'JFK', 'LAX', 'AA', 1, 3), 
+(NULL, 2, 400.00, 25.00, 1, 0, 'JFK', 'LAX', 'AA', 1, 3), 
+(NULL, 3, 1000.00, 25.00, 2, 0, 'JFK', 'LAX', 'AA', 1, 3),
+(NULL, 1, 150.00, 25.00, 0, 0, 'LAX', 'JFK', 'AA', 1, 4), 
+(NULL, 2, 400.00, 25.00, 1, 0, 'LAX', 'JFK', 'AA', 1, 4), 
+(NULL, 3, 1000.00, 25.00, 2, 0, 'LAX', 'JFK', 'AA', 1, 4),
+
+(NULL, 1, 150.00, 25.00, 0, 0, 'EWR', 'LAX', 'DL', 1, 5), 
+(NULL, 2, 400.00, 25.00, 1, 0, 'EWR', 'LAX', 'DL', 1, 5), 
+(NULL, 3, 1000.00, 25.00, 2, 0, 'EWR', 'LAX', 'DL', 1, 5),
+(NULL, 1, 150.00, 25.00, 0, 0, 'LAX', 'EWR', 'DL', 1, 6), 
+(NULL, 2, 400.00, 25.00, 1, 0, 'LAX', 'EWR', 'DL', 1, 6), 
+(NULL, 3, 1000.00, 25.00, 2, 0, 'LAX', 'EWR', 'DL', 1, 6),
+(NULL, 1, 150.00, 25.00, 0, 0, 'JFK', 'LAX', 'DL', 1, 7), 
+(NULL, 2, 400.00, 25.00, 1, 0, 'JFK', 'LAX', 'DL', 1, 7), 
+(NULL, 3, 1000.00, 25.00, 2, 0, 'JFK', 'LAX', 'DL', 1, 7),
+(NULL, 1, 150.00, 25.00, 0, 0, 'LAX', 'JFK', 'DL', 1, 8), 
+(NULL, 2, 400.00, 25.00, 1, 0, 'LAX', 'JFK', 'DL', 1, 8), 
+(NULL, 3, 1000.00, 25.00, 2, 0, 'LAX', 'JFK', 'DL', 1, 8),
+
+(NULL, 1, 150.00, 25.00, 0, 0, 'EWR', 'LAX', 'UA', 1, 9), 
+(NULL, 2, 400.00, 25.00, 1, 0, 'EWR', 'LAX', 'UA', 1, 9), 
+(NULL, 3, 1000.00, 25.00, 2, 0, 'EWR', 'LAX', 'UA', 1, 9),
+(NULL, 1, 150.00, 25.00, 0, 0, 'LAX', 'EWR', 'UA', 1, 10), 
+(NULL, 2, 400.00, 25.00, 1, 0, 'LAX', 'EWR', 'UA', 1, 10), 
+(NULL, 3, 1000.00, 25.00, 2, 0, 'LAX', 'EWR', 'UA', 1, 10),
+(NULL, 1, 150.00, 25.00, 0, 0, 'JFK', 'LAX', 'UA', 1, 11), 
+(NULL, 2, 400.00, 25.00, 1, 0, 'JFK', 'LAX', 'UA', 1, 11), 
+(NULL, 3, 1000.00, 25.00, 2, 0, 'JFK', 'LAX', 'UA', 1, 11),
+(NULL, 1, 150.00, 25.00, 0, 0, 'LAX', 'JFK', 'UA', 1, 12), 
+(NULL, 2, 400.00, 25.00, 1, 0, 'LAX', 'JFK', 'UA', 1, 12), 
+(NULL, 3, 1000.00, 25.00, 2, 0, 'LAX', 'JFK', 'UA', 1, 12),
+
+(NULL, 1, 150.00, 25.00, 0, 0, 'EWR', 'LAX', 'WN', 1, 13), 
+(NULL, 2, 400.00, 25.00, 1, 0, 'EWR', 'LAX', 'WN', 1, 13), 
+(NULL, 3, 1000.00, 25.00, 2, 0, 'EWR', 'LAX', 'WN', 1, 13),
+(NULL, 1, 150.00, 25.00, 0, 0, 'LAX', 'EWR', 'WN', 1, 14), 
+(NULL, 2, 400.00, 25.00, 1, 0, 'LAX', 'EWR', 'WN', 1, 14), 
+(NULL, 3, 1000.00, 25.00, 2, 0, 'LAX', 'EWR', 'WN', 1, 14),
+(NULL, 1, 150.00, 25.00, 0, 0, 'JFK', 'LAX', 'WN', 1, 15), 
+(NULL, 2, 400.00, 25.00, 1, 0, 'JFK', 'LAX', 'WN', 1, 15), 
+(NULL, 3, 1000.00, 25.00, 2, 0, 'JFK', 'LAX', 'WN', 1, 15),
+(NULL, 1, 150.00, 25.00, 0, 0, 'LAX', 'JFK', 'WN', 1, 16), 
+(NULL, 2, 400.00, 25.00, 1, 0, 'LAX', 'JFK', 'WN', 1, 16), 
+(NULL, 3, 1000.00, 25.00, 2, 0, 'LAX', 'JFK', 'WN', 1, 16)
+;
+
+
+
+
+
+
+
+
+
 /*!40000 ALTER TABLE `flightticketfor` ENABLE KEYS */;
 UNLOCK TABLES;
 

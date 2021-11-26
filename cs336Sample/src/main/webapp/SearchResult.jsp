@@ -59,10 +59,11 @@
 		
 		String select = "SELECT *, STR_TO_DATE(CONCAT(departureDate, ' ', takeoff), '%Y-%m-%d %H:%i:%s') AS datetime_departureDate, "
 			+"STR_TO_DATE(CONCAT(arrivalDate, ' ', landing), '%Y-%m-%d %H:%i:%s') AS datetime_arrivalDate "
-			+"FROM flightBy f "
+			+"FROM flightBy f, flightticketfor t "
 			+"WHERE f.departureDate = ? "
 			+"AND f.fromAirport = ? "
-			+"AND f.toAirport = ? ";
+			+"AND f.toAirport = ? "
+			+"AND f.flightnum = t.flightnum ";
 			
 		String select2 = "";
 
@@ -83,11 +84,11 @@
 		
 		HashMap<Integer, String> optional = new HashMap<Integer, String>();
 
-		
+		out.print("before price \n");
 		Integer priceFilter = Integer.valueOf(request.getParameter("priceFilter"));
 		String sprice = request.getParameter("price");
 		if(!sprice.isEmpty()){
-			Integer price = Integer.valueOf(sprice);
+			Float price = Float.valueOf(sprice);
 			select += "AND t.totalFare ";
 			switch(priceFilter){
 			case 0:
@@ -101,14 +102,14 @@
 				break;
 			default:
 				throw new Exception();
-			}		
+			}
 			select += " ? ";
 			optional.put(hasPriceFilter,sprice);
 		}
-
+		
 		Integer numStopFilter = Integer.valueOf(request.getParameter("numStopFilter"));
 		String snumStop = request.getParameter("numStop");
-		if(!sprice.isEmpty()){
+		if(!snumStop.isEmpty()){
 			Integer numStop = Integer.valueOf(snumStop);
 			select += "AND t.totalFare ";
 			switch(numStopFilter){
@@ -187,6 +188,8 @@
 		for(int key: optional.keySet()){
 			switch(key){
 			  case hasPriceFilter:
+				  ps.setFloat(index, Float.valueOf(optional.get(key)));
+				  break;
 			  case hasNumStopFilter:
 				  ps.setInt(index, Integer.valueOf(optional.get(key)));
 				  break;
@@ -213,6 +216,10 @@
 		
 		for(int i = 0; i <= isOneWay; i++){
 			//make a column
+			out.print("<td>");
+			//print out column header
+			out.print("Ticket Number");
+			out.print("</td>");
 			out.print("<td>");
 			//print out column header
 			out.print("departureDate");
@@ -247,6 +254,10 @@
 			out.print("</td>");
 			//make a price
 			out.print("<td>");
+			out.print("class");
+			out.print("</td>");
+			//make a price
+			out.print("<td>");
 			out.print("flightNum");
 			out.print("</td>");
 			
@@ -267,6 +278,10 @@
 			//make a row
 			out.print("<tr>");
 			//make a column
+			out.print("<td>");
+			//Print out current bar name:
+			out.print(rs.getInt("ticketNum"));
+			out.print("</td>");
 			out.print("<td>");
 			//Print out current bar name:
 			out.print(rs.getDate("departureDate"));
@@ -297,7 +312,16 @@
 			out.print("</td>");
 			out.print("<td>");
 			//Print out current price
-			out.print("totalFare");
+			out.print(rs.getFloat("totalFare"));
+			out.print("</td>");
+			out.print("<td>");
+			//Print out current price
+			switch(rs.getInt("class")){
+				case 0: out.print("Economy"); break;
+				case 1: out.print("Business"); break;
+				case 2: out.print("First"); break;
+				default: out.print("");	break;
+			}
 			out.print("</td>");
 			out.print("<td>");
 			//Print out current price

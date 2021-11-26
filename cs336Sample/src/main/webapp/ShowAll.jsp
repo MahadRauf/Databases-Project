@@ -24,7 +24,8 @@
 		//Get parameters from the HTML form at the SearchFlight.jsp
 			
 		String select = "SELECT * "
-				+"FROM flightBy";
+				+"FROM flightBy f, flightticketfor t " 
+				+"WHERE f.flightnum = t.flightnum ";
 
 
 		PreparedStatement ps = con.prepareStatement(select);
@@ -37,6 +38,10 @@
 		//make a row
 		out.print("<tr>");
 		//make a column
+		out.print("<td>");
+		//print out column header
+		out.print("Ticket Number");
+		out.print("</td>");
 		out.print("<td>");
 		//print out column header
 		out.print("departureDate");
@@ -71,10 +76,12 @@
 		out.print("</td>");
 		//make a price
 		out.print("<td>");
+		out.print("class");
+		out.print("</td>");
+		//make a price
+		out.print("<td>");
 		out.print("flightNum");
 		out.print("</td>");
-		
-		
 		
 		out.print("</tr>");
 
@@ -83,6 +90,10 @@
 			//make a row
 			out.print("<tr>");
 			//make a column
+			out.print("<td>");
+			//Print out current bar name:
+			out.print(rs.getInt("ticketNum"));
+			out.print("</td>");
 			out.print("<td>");
 			//Print out current bar name:
 			out.print(rs.getDate("departureDate"));
@@ -113,12 +124,22 @@
 			out.print("</td>");
 			out.print("<td>");
 			//Print out current price
-			out.print("totalFare");
+			switch(rs.getInt("class")){
+				case 0: out.print("Economy"); break;
+				case 1: out.print("Business");break;
+				case 2: out.print("First");break;
+				default: out.print("");	break;
+			}
+			out.print("</td>");
+			out.print("<td>");
+			//Print out current price
+			out.print(rs.getFloat("totalFare"));
 			out.print("</td>");
 			out.print("<td>");
 			//Print out current price
 			out.print(rs.getString("flightNum"));
 			out.print("</td>");
+
 			
 			out.print("</tr>");
 		}
