@@ -68,13 +68,14 @@
 		String select2 = "";
 
 		if(isOneWay == 1){
+			out.print("is roundtrip \n");
 			 select += "UNION SELECT *, STR_TO_DATE(CONCAT(departureDate, ' ', takeoff), '%Y-%m-%d %H:%i:%s') AS datetime_departureDate, "
 				+"STR_TO_DATE(CONCAT(arrivalDate, ' ', landing), '%Y-%m-%d %H:%i:%s') AS datetime_arrivalDate "
 				+"FROM flightBy f, flightticketfor t "
 				+"WHERE f.departureDate = ? "
 				+"AND f.fromAirport = ? "
 				+"AND f.toAirport = ? "
-				+"AND f.flightNum = t.flightNum ";
+				+"AND f.flightnum = t.flightnum ";
 		}
 		final int hasPriceFilter = 1;
 		final int hasNumStopFilter = 2;
@@ -181,8 +182,8 @@
 		int index = 4;
 		if(isOneWay == 1){
 			ps.setDate(index++, returnDate);
-			ps.setString(index++, fromAirport);
 			ps.setString(index++, toAirport);
+			ps.setString(index++, fromAirport);
 		}
 		
 		for(int key: optional.keySet()){
