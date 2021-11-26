@@ -3,7 +3,7 @@ CREATE DATABASE  IF NOT EXISTS `TakaTravels` /*!40100 DEFAULT CHARACTER SET lati
 USE `TakaTravels`;
 -- MySQL dump 10.13  Distrib 5.7.17, for macos10.12 (x86_64)
 --
--- Host: cs336.ckksjtjg2jto.us-east-2.rds.amazonaws.com    Database: BarBeerDrinkerSample
+-- Host: cs336.ckksjtjg2jto.us-east-2.rds.amazonaws.com    Database: TakaTravels
 -- ------------------------------------------------------
 -- Server version	5.6.35-log
 
