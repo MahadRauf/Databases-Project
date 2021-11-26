@@ -24,6 +24,8 @@
 
 		//Get parameters from the HTML form at the index.jsp
 		//String name = request.getParameter("username");
+		String firstName = request.getParameter("first");
+		String lastName = request.getParameter("last");
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		//made constant to maintain usability
@@ -37,8 +39,8 @@
 			response.sendRedirect("HelloWorld.jsp");
 		}
 		//Make an insert statement for the accounts table:
-		String insert = "INSERT INTO account(username, password, type)"
-				+ "VALUES (?, ?, ?)";
+		String insert = "INSERT INTO account(username, password, type, lastname, firstname)"
+				+ "VALUES (?, ?, ?, ?, ?)";
 		//Create a Prepared SQL statement allowing you to introduce the parameters of the query
 		PreparedStatement ps = con.prepareStatement(insert);
 
@@ -46,6 +48,8 @@
 		ps.setString(1, username);
 		ps.setString(2, password);
 		ps.setFloat(3, num);
+		ps.setString(4, lastName);
+		ps.setString(5, firstName);
 		//Run the query against the DB
 		ps.executeUpdate();
 		//Run the query against the DB
