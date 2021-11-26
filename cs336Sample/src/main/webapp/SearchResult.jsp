@@ -51,10 +51,10 @@
 		
 		Integer sortBy = Integer.valueOf(request.getParameter("sort"));
 		
-		java.sql.Date arrivalDate = null;
+		java.sql.Date returnDate = null;
 		if(isOneWay != 0){
-			date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("arrivalDate")); 
-			arrivalDate = new java.sql.Date(date.getTime()); 
+			date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("returnDate")); 
+			returnDate = new java.sql.Date(date.getTime()); 
 		}
 		
 		String select = "SELECT *, STR_TO_DATE(CONCAT(departureDate, ' ', takeoff), '%Y-%m-%d %H:%i:%s') AS datetime_departureDate, "
@@ -70,7 +70,7 @@
 			 select += "UNION SELECT *, STR_TO_DATE(CONCAT(departureDate, ' ', takeoff), '%Y-%m-%d %H:%i:%s') AS datetime_departureDate, "
 				+"STR_TO_DATE(CONCAT(arrivalDate, ' ', landing), '%Y-%m-%d %H:%i:%s') AS datetime_arrivalDate "
 				+"FROM flightBy f, flightticketfor t "
-				+"WHERE f.arrivalDate = ? "
+				+"WHERE f.departureDate = ? "
 				+"AND f.fromAirport = ? "
 				+"AND f.toAirport = ? "
 				+"AND f.flightNum = t.flightNum ";
@@ -134,15 +134,17 @@
 			optional.put(hasAirline, airline);
 		}
 
-		String takeoff = request.getParameter("takeoff");
-		if(!takeoff.isEmpty()){
+		String takeoffhour = request.getParameter("takeoffhour");
+		String takeoffmin = request.getParameter("takeoffmin");
+		if(!takeoffhour.isEmpty() && !takeoffmin.isEmpty()){
 			select += "AND f.takeoff = ? ";
-			optional.put(hasTakeOff, takeoff);
+			optional.put(hasTakeOff, takeoffhour+":"+takeoffmin);
 		}
-		String landing = request.getParameter("landing");
-		if(!landing.isEmpty()){
+		String landinghour = request.getParameter("landinghour");
+		String landingmin = request.getParameter("landingmin");
+		if(!landinghour.isEmpty() && !landingmin.isEmpty()){
 			select += "AND f.landing = ? ";	
-			optional.put(hasLanding, landing);
+			optional.put(hasLanding, landinghour+":"+landingmin);
 		}
 		
 		
@@ -177,7 +179,7 @@
 		
 		int index = 4;
 		if(isOneWay == 1){
-			ps.setDate(index++, arrivalDate);
+			ps.setDate(index++, returnDate);
 			ps.setString(index++, fromAirport);
 			ps.setString(index++, toAirport);
 		}

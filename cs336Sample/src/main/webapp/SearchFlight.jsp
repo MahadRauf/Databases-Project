@@ -40,7 +40,7 @@
   
 <div>
 <label for="end">End date:</label>
-<input type="date" id="end" name="arrivalDate"
+<input type="date" id="end" name="returnDate"
        value="2022-01-02"
        placeholder="dd-mm-yyyy"
        min="2022-01-01" max="2022-12-31">
@@ -93,13 +93,16 @@
 			<br> 
 			
 			
-			<label for="takeoff">Take-off Time:</label>
-		  <input type="time" id="takeoff" name="takeoff">
+			<label for="takeoffhour">Take-off Time:</label>
+		  <input type="time" id="takeoffhour" name="takeoffhour">:
+		  <input type="time" id="takeoffmin" name="takeoffmin">
 			<br> 
 			
-			<label for="landing">Landing Time:</label>
-		  <input type="time" id="landing" name="landing">
+		   <label for="landinghour">Landing Time:</label>
+		  <input type="time" id="landinghour" name="landinghour">:
+		  <input type="time" id="landingmin" name="landingmin">
 			<br> 
+			
 			
 			<input type="submit" value="Search!">
 		</form>
