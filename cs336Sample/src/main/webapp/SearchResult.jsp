@@ -11,8 +11,16 @@
 <title>Search Result</title>
 </head>
 <body>
+<%!
+	public int toMins (String s){
+    	String[] hourMin = s.split(":");
+    	int hour = Integer.parseInt(hourMin[0]);
+    	int mins = Integer.parseInt(hourMin[1]);
+    	int hoursInMins = hour * 60;
+    	return hoursInMins + mins;
+	}
+%>
 	<%
-
 	try {
 		out.print("At search Result\n");
 		//Get the database connection
@@ -49,7 +57,8 @@
 			arrivalDate = new java.sql.Date(date.getTime()); 
 		}
 		
-		String select = "SELECT * "
+		String select = "SELECT *, STR_TO_DATE(CONCAT(departureDate, ' ', takeoff), '%Y-%m-%d %H:%i:%s') AS datetime_departureDate, "
+			+"STR_TO_DATE(CONCAT(arrivalDate, ' ', landing), '%Y-%m-%d %H:%i:%s') AS datetime_arrivalDate "
 			+"FROM flightBy f "
 			+"WHERE f.departureDate = ? "
 			+"AND f.fromAirport = ? "
@@ -58,7 +67,8 @@
 		String select2 = "";
 
 		if(isOneWay == 1){
-			 select += "UNION SELECT * "
+			 select += "UNION SELECT *, STR_TO_DATE(CONCAT(departureDate, ' ', takeoff), '%Y-%m-%d %H:%i:%s') AS datetime_departureDate, "
+				+"STR_TO_DATE(CONCAT(arrivalDate, ' ', landing), '%Y-%m-%d %H:%i:%s') AS datetime_arrivalDate "
 				+"FROM flightBy f, flightticketfor t "
 				+"WHERE f.arrivalDate = ? "
 				+"AND f.fromAirport = ? "
@@ -127,7 +137,7 @@
 		String takeoff = request.getParameter("takeoff");
 		if(!takeoff.isEmpty()){
 			select += "AND f.takeoff = ? ";
-			optional.put(hasTakeOff, airline);
+			optional.put(hasTakeOff, takeoff);
 		}
 		String landing = request.getParameter("landing");
 		if(!landing.isEmpty()){
@@ -144,13 +154,13 @@
 				select += "ORDER BY t.totalFare ";
 				break;
 			case 2:
-				select += "ORDER BY f.takeoff ";
+				select += "ORDER BY datetime_departureDate ";
 				break;
 			case 3:
-				select += "ORDER BY f.landing ";
+				select += "ORDER BY datetime_arrivalDate ";
 				break;
 			case 4:
-				select += "ORDER BY  f.landing - f.takeoff ";
+				select += "ORDER BY DATEDIFF(datetime_arrivalDate, datetime_departureDate) ";
 				break;
 			default:
 				break;
@@ -198,40 +208,56 @@
 		out.print("<table>");
 		//make a row
 		out.print("<tr>");
-		//make a column
-		out.print("<td>");
-		//print out column header
-		out.print("departureDate");
-		out.print("</td>");
-		//print out column header
-		out.print("<td>");
-		out.print("takeoff");
-		out.print("</td>");
-		//print out column header
-		out.print("<td>");
-		out.print("arrivalDate");
-		out.print("</td>");
-		//print out column header
-		out.print("<td>");
-		out.print("landing");
-		out.print("</td>");
-		//make a column
-		out.print("<td>");
-		out.print("fromAirport");
-		out.print("</td>");
-		//make a column
-		out.print("<td>");
-		out.print("toAirport");
-		out.print("</td>");
-		//make a price
-		out.print("<td>");
-		out.print("price");
-		out.print("</td>");
-		//make a price
-		out.print("<td>");
-		out.print("flightNum");
-		out.print("</td>");
 		
+		for(int i = 0; i <= isOneWay; i++){
+			//make a column
+			out.print("<td>");
+			//print out column header
+			out.print("departureDate");
+			out.print("</td>");
+			//print out column header
+			out.print("<td>");
+			out.print("takeoff");
+			out.print("</td>");
+			//print out column header
+			out.print("<td>");
+			out.print("arrivalDate");
+			out.print("</td>");
+			//print out column header
+			out.print("<td>");
+			out.print("landing");
+			out.print("</td>");
+			//make a column
+			out.print("<td>");
+			out.print("fromAirport");
+			out.print("</td>");
+			//make a column
+			out.print("<td>");
+			out.print("toAirport");
+			out.print("</td>");
+			//make a column
+			out.print("<td>");
+			out.print("Airline");
+			out.print("</td>");
+			//make a price
+			out.print("<td>");
+			out.print("price");
+			out.print("</td>");
+			//make a price
+			out.print("<td>");
+			out.print("flightNum");
+			out.print("</td>");
+			
+			//make a price
+			out.print("<td>");
+			out.print("datetime_departureDate");
+			out.print("</td>");
+			
+			//make a price
+			out.print("<td>");
+			out.print("datetime_arrivalDate");
+			out.print("</td>");
+		}
 		out.print("</tr>");
 
 		//parse out the results
@@ -265,11 +291,23 @@
 			out.print("</td>");
 			out.print("<td>");
 			//Print out current price
+			out.print(rs.getString("twoLetID"));
+			out.print("</td>");
+			out.print("<td>");
+			//Print out current price
 			out.print("totalFare");
 			out.print("</td>");
 			out.print("<td>");
 			//Print out current price
 			out.print(rs.getString("flightNum"));
+			out.print("</td>");
+			out.print("<td>");
+			//Print out current price
+			out.print(rs.getString("datetime_departureDate"));
+			out.print("</td>");
+			out.print("<td>");
+			//Print out current price
+			out.print(rs.getString("datetime_arrivalDate"));
 			out.print("</td>");
 			
 			out.print("</tr>");

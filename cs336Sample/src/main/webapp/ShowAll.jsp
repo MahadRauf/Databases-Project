@@ -61,6 +61,10 @@
 		out.print("<td>");
 		out.print("toAirport");
 		out.print("</td>");
+		//make a column
+		out.print("<td>");
+		out.print("Airline");
+		out.print("</td>");
 		//make a price
 		out.print("<td>");
 		out.print("price");
@@ -69,6 +73,8 @@
 		out.print("<td>");
 		out.print("flightNum");
 		out.print("</td>");
+		
+		
 		
 		out.print("</tr>");
 
@@ -100,6 +106,10 @@
 			out.print("<td>");
 			//Print out current price
 			out.print(rs.getString("toAirport"));
+			out.print("</td>");
+			out.print("<td>");
+			//Print out current price
+			out.print(rs.getString("twoLetID"));
 			out.print("</td>");
 			out.print("<td>");
 			//Print out current price
