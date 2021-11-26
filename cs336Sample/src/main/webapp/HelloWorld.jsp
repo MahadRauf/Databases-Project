@@ -57,6 +57,15 @@
 	<br>
 		<form method="post" action="AccountRegistration.jsp">
 		<table>
+		
+		<tr>    
+		<td>First Name</td><td><input type="text" name="first"></td>
+		</tr>
+		
+		<tr>    
+		<td>Last Name</td><td><input type="text" name="last"></td>
+		</tr>
+		
 		<tr>    
 		<td>New Username</td><td><input type="text" name="username"></td>
 		</tr>
