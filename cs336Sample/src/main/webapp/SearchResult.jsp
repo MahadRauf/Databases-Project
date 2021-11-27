@@ -112,7 +112,7 @@
 		String snumStop = request.getParameter("numStop");
 		if(!snumStop.isEmpty()){
 			Integer numStop = Integer.valueOf(snumStop);
-			select += "AND t.totalFare ";
+			select += "AND f.numStop ";
 			switch(numStopFilter){
 			case 0:
 				select += "=";
@@ -214,64 +214,56 @@
 		out.print("<table>");
 		//make a row
 		out.print("<tr>");
+		//make a column
+		out.print("<td>");
+		//print out column header
+		out.print("Ticket Number");
+		out.print("</td>");
+		out.print("<td>");
+		//print out column header
+		out.print("departureDate");
+		out.print("</td>");
+		//print out column header
+		out.print("<td>");
+		out.print("takeoff");
+		out.print("</td>");
+		//print out column header
+		out.print("<td>");
+		out.print("arrivalDate");
+		out.print("</td>");
+		//print out column header
+		out.print("<td>");
+		out.print("landing");
+		out.print("</td>");
+		//make a column
+		out.print("<td>");
+		out.print("fromAirport");
+		out.print("</td>");
+		//make a column
+		out.print("<td>");
+		out.print("toAirport");
+		out.print("</td>");
+		//make a column
+		out.print("<td>");
+		out.print("Airline");
+		out.print("</td>");
+		//make a price
+		out.print("<td>");
+		out.print("price");
+		out.print("</td>");
+		//make a price
+		out.print("<td>");
+		out.print("class");
+		out.print("</td>");
+		//make a price
+		out.print("<td>");
+		out.print("flightNum");
+		out.print("</td>");
+		//make a price
+		out.print("<td>");
+		out.print("numStop");
+		out.print("</td>");
 		
-		for(int i = 0; i <= isOneWay; i++){
-			//make a column
-			out.print("<td>");
-			//print out column header
-			out.print("Ticket Number");
-			out.print("</td>");
-			out.print("<td>");
-			//print out column header
-			out.print("departureDate");
-			out.print("</td>");
-			//print out column header
-			out.print("<td>");
-			out.print("takeoff");
-			out.print("</td>");
-			//print out column header
-			out.print("<td>");
-			out.print("arrivalDate");
-			out.print("</td>");
-			//print out column header
-			out.print("<td>");
-			out.print("landing");
-			out.print("</td>");
-			//make a column
-			out.print("<td>");
-			out.print("fromAirport");
-			out.print("</td>");
-			//make a column
-			out.print("<td>");
-			out.print("toAirport");
-			out.print("</td>");
-			//make a column
-			out.print("<td>");
-			out.print("Airline");
-			out.print("</td>");
-			//make a price
-			out.print("<td>");
-			out.print("price");
-			out.print("</td>");
-			//make a price
-			out.print("<td>");
-			out.print("class");
-			out.print("</td>");
-			//make a price
-			out.print("<td>");
-			out.print("flightNum");
-			out.print("</td>");
-			
-			//make a price
-			out.print("<td>");
-			out.print("datetime_departureDate");
-			out.print("</td>");
-			
-			//make a price
-			out.print("<td>");
-			out.print("datetime_arrivalDate");
-			out.print("</td>");
-		}
 		out.print("</tr>");
 
 		//parse out the results
@@ -313,16 +305,16 @@
 			out.print("</td>");
 			out.print("<td>");
 			//Print out current price
-			out.print(rs.getFloat("totalFare"));
+			switch(rs.getInt("class")){
+				case 0: out.print("Economy"); break;
+				case 1: out.print("Business");break;
+				case 2: out.print("First");break;
+				default: out.print("");	break;
+			}
 			out.print("</td>");
 			out.print("<td>");
 			//Print out current price
-			switch(rs.getInt("class")){
-				case 0: out.print("Economy"); break;
-				case 1: out.print("Business"); break;
-				case 2: out.print("First"); break;
-				default: out.print("");	break;
-			}
+			out.print(rs.getFloat("totalFare"));
 			out.print("</td>");
 			out.print("<td>");
 			//Print out current price
@@ -330,12 +322,9 @@
 			out.print("</td>");
 			out.print("<td>");
 			//Print out current price
-			out.print(rs.getString("datetime_departureDate"));
+			out.print(rs.getString("numStop"));
 			out.print("</td>");
-			out.print("<td>");
-			//Print out current price
-			out.print(rs.getString("datetime_arrivalDate"));
-			out.print("</td>");
+
 			
 			out.print("</tr>");
 		}

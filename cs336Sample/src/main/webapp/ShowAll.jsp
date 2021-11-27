@@ -82,6 +82,10 @@
 		out.print("<td>");
 		out.print("flightNum");
 		out.print("</td>");
+		//make a price
+		out.print("<td>");
+		out.print("numStop");
+		out.print("</td>");
 		
 		out.print("</tr>");
 
@@ -138,6 +142,10 @@
 			out.print("<td>");
 			//Print out current price
 			out.print(rs.getString("flightNum"));
+			out.print("</td>");
+			out.print("<td>");
+			//Print out current price
+			out.print(rs.getString("numStop"));
 			out.print("</td>");
 
 			
