@@ -11,15 +11,6 @@
 <title>Search Result</title>
 </head>
 <body>
-<%!
-	public int toMins (String s){
-    	String[] hourMin = s.split(":");
-    	int hour = Integer.parseInt(hourMin[0]);
-    	int mins = Integer.parseInt(hourMin[1]);
-    	int hoursInMins = hour * 60;
-    	return hoursInMins + mins;
-	}
-%>
 	<%
 	try {
 		out.print("At search Result\n");
@@ -33,6 +24,7 @@
 		
 		
 		Integer isOneWay = Integer.valueOf(request.getParameter("isOneWay"));
+		Integer isFlexible = Integer.valueOf(request.getParameter("isFlexible"));
 		out.print("After integer\n");
 		java.util.Date date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("departureDate")); 
 		java.sql.Date departureDate = new java.sql.Date(date.getTime()); 
@@ -60,23 +52,28 @@
 		String select = "SELECT *, STR_TO_DATE(CONCAT(departureDate, ' ', takeoff), '%Y-%m-%d %H:%i:%s') AS datetime_departureDate, "
 			+"STR_TO_DATE(CONCAT(arrivalDate, ' ', landing), '%Y-%m-%d %H:%i:%s') AS datetime_arrivalDate "
 			+"FROM flightBy f, flightticketfor t "
-			+"WHERE f.departureDate = ? "
-			+"AND f.fromAirport = ? "
-			+"AND f.toAirport = ? "
-			+"AND f.flightnum = t.flightnum ";
-			
-		String select2 = "";
-
+		    +"WHERE t.type = ? ";
 		if(isOneWay == 1){
 			out.print("is roundtrip \n");
-			 select += "UNION SELECT *, STR_TO_DATE(CONCAT(departureDate, ' ', takeoff), '%Y-%m-%d %H:%i:%s') AS datetime_departureDate, "
+			 select = "SELECT *, STR_TO_DATE(CONCAT(departureDate, ' ', takeoff), '%Y-%m-%d %H:%i:%s') AS datetime_departureDate, "
 				+"STR_TO_DATE(CONCAT(arrivalDate, ' ', landing), '%Y-%m-%d %H:%i:%s') AS datetime_arrivalDate "
 				+"FROM flightBy f, flightticketfor t "
-				+"WHERE f.departureDate = ? "
-				+"AND f.fromAirport = ? "
+			 	+"WHERE t.type = ? ";
+		}
+		
+		if(isFlexible == 0){
+			out.print("in flexible ");
+			select += "AND DATE_SUB(f.departureDate, INTERVAL 3 DAY) <= ? "
+					+ "AND DATE_ADD(f.departureDate, INTERVAL 3 DAY) >= ? ";
+		}else{
+			select += "AND f.departureDate = ? ";
+		}
+		
+		
+		select += "AND f.fromAirport = ? "
 				+"AND f.toAirport = ? "
 				+"AND f.flightnum = t.flightnum ";
-		}
+		
 		final int hasPriceFilter = 1;
 		final int hasNumStopFilter = 2;
 		final int hasAirline = 3;
@@ -174,17 +171,18 @@
 		
 		out.print("before prepare");
 		
+		int index = 1;
 		PreparedStatement ps = con.prepareStatement(select);
-		ps.setDate(1, departureDate);
-		ps.setString(2, fromAirport);
-		ps.setString(3, toAirport);
-		
-		int index = 4;
-		if(isOneWay == 1){
-			ps.setDate(index++, returnDate);
-			ps.setString(index++, toAirport);
-			ps.setString(index++, fromAirport);
+		ps.setInt(index++, isOneWay);
+		if(isFlexible == 0){
+			ps.setDate(index++, departureDate);
+			ps.setDate(index++, departureDate);
+		}else{
+			ps.setDate(index++, departureDate);
 		}
+		ps.setString(index++, fromAirport);
+		ps.setString(index++, toAirport);
+
 		
 		for(int key: optional.keySet()){
 			switch(key){

@@ -12,7 +12,7 @@
 	<br>
 		<form method="get" action="SearchResult.jsp">
 				<div>
-		  <input type="radio" id="isoneway" name=isOneWay value=0
+		  <input type="radio" id="isOneWay" name=isOneWay value=0
 		         checked>
 		  <label for="oneway">One Way</label>
 		</div>
@@ -23,9 +23,15 @@
 		</div>
 		
 		<div>
-		  <input type="radio" id="both" name="isOneWay" value=2>
-		  <label for="both">One Way or Round Trip (+/- 3 days) </label>
+		  <input type="radio" id="isFlexible" name=isFlexible value=0>
+		  <label for="oneway">Flexible(+/- 3 days)</label>
 		</div>
+		
+		<div>
+		  <input type="radio" id="isFlexible" name="isFlexible" value=1 checked>
+		  <label for="roundtrip">Not Flexible</label>
+		</div>
+
 				
 
 		
