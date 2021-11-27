@@ -53,13 +53,6 @@
 			+"STR_TO_DATE(CONCAT(arrivalDate, ' ', landing), '%Y-%m-%d %H:%i:%s') AS datetime_arrivalDate "
 			+"FROM flightBy f, flightticketfor t "
 		    +"WHERE t.type = ? ";
-		if(isOneWay == 1){
-			out.print("is roundtrip \n");
-			 select = "SELECT *, STR_TO_DATE(CONCAT(departureDate, ' ', takeoff), '%Y-%m-%d %H:%i:%s') AS datetime_departureDate, "
-				+"STR_TO_DATE(CONCAT(arrivalDate, ' ', landing), '%Y-%m-%d %H:%i:%s') AS datetime_arrivalDate "
-				+"FROM flightBy f, flightticketfor t "
-			 	+"WHERE t.type = ? ";
-		}
 		
 		if(isFlexible == 0){
 			out.print("in flexible ");
