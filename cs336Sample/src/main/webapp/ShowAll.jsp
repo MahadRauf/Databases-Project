@@ -25,7 +25,8 @@
 			
 		String select = "SELECT * "
 				+"FROM flightBy f, flightticketfor t " 
-				+"WHERE f.flightnum = t.flightnum ";
+				+"WHERE f.flightNum = t.flightNum ";
+
 
 
 		PreparedStatement ps = con.prepareStatement(select);
@@ -76,11 +77,11 @@
 		out.print("</td>");
 		//make a price
 		out.print("<td>");
-		out.print("price");
+		out.print("class");
 		out.print("</td>");
 		//make a price
 		out.print("<td>");
-		out.print("class");
+		out.print("price");
 		out.print("</td>");
 		//make a price
 		out.print("<td>");
@@ -104,7 +105,7 @@
 			out.print("</td>");
 			out.print("<td>");
 			//Print out current bar name:
-			switch(rs.getInt("type")){
+			switch(rs.getInt("t.type")){
 				case 0: out.print("One-Way"); break;
 				case 1: out.print("Round-Trip");break;
 				default: out.print("");	break;
@@ -167,7 +168,6 @@
 		//close the connection.
 		con.close();
 		//Close the connection. Don't forget to do it, otherwise you're keeping the resources of the server allocated.
-		
 		
 	} catch (Exception ex) {
 		out.print(ex);
