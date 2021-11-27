@@ -219,6 +219,10 @@
 		out.print("</td>");
 		out.print("<td>");
 		//print out column header
+		out.print("Trip Type");
+		out.print("</td>");
+		out.print("<td>");
+		//print out column header
 		out.print("departureDate");
 		out.print("</td>");
 		//print out column header
@@ -272,6 +276,14 @@
 			out.print("<td>");
 			//Print out current bar name:
 			out.print(rs.getInt("ticketNum"));
+			out.print("</td>");
+			out.print("<td>");
+			//Print out current bar name:
+			switch(rs.getInt("type")){
+				case 0: out.print("One-Way"); break;
+				case 1: out.print("Round-Trip");break;
+				default: out.print("");	break;
+			}
 			out.print("</td>");
 			out.print("<td>");
 			//Print out current bar name:
