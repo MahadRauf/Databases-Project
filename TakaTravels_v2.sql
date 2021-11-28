@@ -50,9 +50,9 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `Questions`;
 CREATE TABLE `Questions` (
-  `questionNum` int NOT NULL,
+  `questionNum` int NOT NULL auto_increment,
   `Question` varchar(300),
-  `Answer` varchar(300) DEFAULT 'N/A',
+  `Answer` varchar(300) DEFAULT 'Not yet answered.',
   `username` varchar(50) NOT NULL,
   PRIMARY KEY (`questionNum`),
   FOREIGN KEY (`username`) REFERENCES `account` (`username`)
@@ -61,7 +61,12 @@ CREATE TABLE `Questions` (
 /* this is somewhat how the Q&A functionality was described. no calls table. */
 LOCK TABLES `Questions` WRITE;
 /*!40000 ALTER TABLE `Questions` DISABLE KEYS */;
-INSERT INTO `Questions` VALUES (00001, 'is taka sussy?', DEFAULT ,'user1'), (00002, 'is taka onii-chan sugoi?', DEFAULT, 'user1'), (00003, 'how is Moeez so cool?', DEFAULT, 'user2'), (00004, 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', DEFAULT, 'user2');
+INSERT INTO `Questions` (`Question`,`Answer`,`username`) VALUES 
+	('How do I book a flight?', DEFAULT , 'Anonymous'),
+    ('How can I choose the cheapest flight?', DEFAULT , 'Anonymous'),
+    ('Do I need to pay a fee to cancel my flight?', 'If you bought an economy ticket, you must pay a fee to change your ticket. However, if you bought a business or first class ticket, you may change your ticket without a fee.' , 'Anonymous'),
+    ('When will I know if I am off the waiting list?', DEFAULT , 'Anonymous'),
+    ('What can I do if I don’t have a specific departure date?', 'Select the "flexible" option when selecting a date for departure.' , 'Anonymous');
 /*!40000 ALTER TABLE `Questions` ENABLE KEYS */;
 UNLOCK TABLES;
 
