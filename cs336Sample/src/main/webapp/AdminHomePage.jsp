@@ -9,16 +9,11 @@
 <body>
 
 <br> <!-- add rep  --> 
-	<form method="get" action="repMake.jsp">
-		<input type="submit" value="Add a Customer Representative Account">
+	<form method="get" action="accountMake.jsp">
+		<input type="submit" value="Add an Account">
 	</form>
 <br>
 
-<br> <!-- add user  --> 
-	<form method="get" action="userMake.jsp">
-		<input type="submit" value="Add an User Account">
-	</form>
-<br>
 
 <br> <!-- edit rep info  --> 
 	<form method="get" action="repEdit.jsp">
