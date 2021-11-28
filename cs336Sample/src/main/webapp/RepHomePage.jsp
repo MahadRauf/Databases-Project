@@ -9,7 +9,7 @@
 <body>
 
 <br>
-	<form method="get" action="unansweredQuestions.jsp">
+	<form method="get" action="QToAnswer.jsp">
 		<input type="submit" value="Questions to Answer">
 	</form>
 <br>
