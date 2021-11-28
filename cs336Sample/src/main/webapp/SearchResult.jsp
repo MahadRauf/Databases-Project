@@ -49,9 +49,10 @@
 			returnDate = new java.sql.Date(date.getTime()); 
 		}
 		
-		String select = "SELECT *, STR_TO_DATE(CONCAT(departureDate, ' ', takeoff), '%Y-%m-%d %H:%i:%s') AS datetime_departureDate, "
-			+"STR_TO_DATE(CONCAT(arrivalDate, ' ', landing), '%Y-%m-%d %H:%i:%s') AS datetime_arrivalDate "
-			+"FROM flightBy f, flightticketfor t "
+		String beginselect = "SELECT *, STR_TO_DATE(CONCAT(departureDate, ' ', takeoff), '%Y-%m-%d %H:%i:%s') AS datetime_departureDate, "
+			+"STR_TO_DATE(CONCAT(arrivalDate, ' ', landing), '%Y-%m-%d %H:%i:%s') AS datetime_arrivalDate ";
+		
+		String select = "FROM flightBy f, flightticketfor t "
 		    +"WHERE t.type = ? ";
 		
 		if(isFlexible == 0){
@@ -140,6 +141,18 @@
 		}
 		
 		
+		
+		
+		
+		if(isOneWay == 1){
+			String select2 = select;
+			select2 = "SELECT f.flightnum " + select2;
+			select2 = select2.replaceAll("AND f.flightnum = t.flightnum","AND f.flightnum = t.flightnum2" );
+			select+=  "AND t.flightnum2 IN ("+select2+") ";
+			
+		}
+
+		
 		//Run the query against the database.
 		switch(sortBy){
 			case 0:
@@ -159,43 +172,54 @@
 			default:
 				break;
 		}
-		
-
-		
+				
 		out.print("before prepare");
+		
+		select = beginselect + select;
+		
+		out.print(select);
+		
 		
 		int index = 1;
 		PreparedStatement ps = con.prepareStatement(select);
-		ps.setInt(index++, isOneWay);
-		if(isFlexible == 0){
-			ps.setDate(index++, departureDate);
-			ps.setDate(index++, departureDate);
-		}else{
-			ps.setDate(index++, departureDate);
-		}
-		ps.setString(index++, fromAirport);
-		ps.setString(index++, toAirport);
-
-		
-		for(int key: optional.keySet()){
-			switch(key){
-			  case hasPriceFilter:
-				  ps.setFloat(index, Float.valueOf(optional.get(key)));
-				  break;
-			  case hasNumStopFilter:
-				  ps.setInt(index, Integer.valueOf(optional.get(key)));
-				  break;
-			  case hasAirline:
-			  case hasTakeOff:
-			  case hasLanding:
-				  ps.setString(index, optional.get(key));
-				  break;
-			  default:
-				  break;
+		for(int i = 0; i <= isOneWay; i++){
+			ps.setInt(index++, isOneWay);
+			if(i == 1){
+				departureDate = returnDate;
+				String temp = fromAirport;
+				fromAirport = toAirport;
+				toAirport = temp;
 			}
-			index++;
+			if(isFlexible == 0){
+				ps.setDate(index++, departureDate);
+				ps.setDate(index++, departureDate);
+			}else{
+				ps.setDate(index++, departureDate);
+			}
+			ps.setString(index++, fromAirport);
+			ps.setString(index++, toAirport);
+	
+			
+			for(int key: optional.keySet()){
+				switch(key){
+				  case hasPriceFilter:
+					  ps.setFloat(index, Float.valueOf(optional.get(key)));
+					  break;
+				  case hasNumStopFilter:
+					  ps.setInt(index, Integer.valueOf(optional.get(key)));
+					  break;
+				  case hasAirline:
+				  case hasTakeOff:
+				  case hasLanding:
+					  ps.setString(index, optional.get(key));
+					  break;
+				  default:
+					  break;
+				}
+				index++;
+			}
+		
 		}
-				
 			
 		
 		out.print("before result");
@@ -272,7 +296,7 @@
 			out.print("</td>");
 			out.print("<td>");
 			//Print out current bar name:
-			switch(rs.getInt("type")){
+			switch(rs.getInt("t.type")){
 				case 0: out.print("One-Way"); break;
 				case 1: out.print("Round-Trip");break;
 				default: out.print("");	break;
