@@ -40,6 +40,14 @@
 					</form>
 				<br>
 				<%
+			}else if(rs.getInt("type")==2){
+				%>		
+				<br>
+					<form method="get" action="RepHomePage.jsp">
+						<input type="submit" value="Home Page!">
+					</form>
+				<br>
+				<%
 			}
 		
 			%>		
@@ -57,7 +65,7 @@
 		}
 		
 		
-		
+		// is the connection supposed to stay open here? there's nothing closing the connection as the comment says.
 		//Close the connection. Don't forget to do it, otherwise you're keeping the resources of the server allocated.
 		
 		
