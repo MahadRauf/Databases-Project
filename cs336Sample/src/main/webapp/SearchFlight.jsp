@@ -117,5 +117,9 @@
 		<form method="get" action="ShowAll.jsp">
 		<input type="submit" value="Show All">
 		</form>
+		
+		<form method="get" action="Questions.jsp">
+		<input type="submit" value="Questions">
+		</form>
 </body>
 </html>
