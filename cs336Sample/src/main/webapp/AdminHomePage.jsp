@@ -8,9 +8,39 @@
 </head>
 <body>
 
-<br> <!-- add, edit info, delete rep & user info  --> 
-	<form method="get" action="rep&user.jsp">
-		<input type="submit" value="Manage info">
+<br> <!-- add rep  --> 
+	<form method="get" action="repMake.jsp">
+		<input type="submit" value="Add a Customer Representative Account">
+	</form>
+<br>
+
+<br> <!-- add user  --> 
+	<form method="get" action="userMake.jsp">
+		<input type="submit" value="Add an User Account">
+	</form>
+<br>
+
+<br> <!-- edit rep info  --> 
+	<form method="get" action="repEdit.jsp">
+		<input type="submit" value="Edit a Customer Representative Account">
+	</form>
+<br>
+
+<br> <!-- edit user info  --> 
+	<form method="get" action="userEdit.jsp">
+		<input type="submit" value="Edit an User Account">
+	</form>
+<br>
+
+<br> <!-- delete rep  --> 
+	<form method="get" action="repDelete.jsp">
+		<input type="submit" value="Delete a Customer Representative Account">
+	</form>
+<br>
+
+<br> <!-- delete user  --> 
+	<form method="get" action="userDelete.jsp">
+		<input type="submit" value="Delete an User Account">
 	</form>
 <br>
 
@@ -26,9 +56,21 @@
 	</form>
 <br>
 
-<br> <!-- produce a summary list of revenue raised by particular flight, airline, or customer  --> 
-	<form method="get" action="sumList.jsp">
-		<input type="submit" value="Make a Revenue Summary List">
+<br> <!-- produce a summary list of revenue raised by particular flight  --> 
+	<form method="get" action="sumListFlight.jsp">
+		<input type="submit" value="Make a Flight Revenue Summary List">
+	</form>
+<br>
+
+<br> <!-- produce a summary list of revenue raised by particular airline  --> 
+	<form method="get" action="sumListAir.jsp">
+		<input type="submit" value="Make an Airline Revenue Summary List">
+	</form>
+<br>
+
+<br> <!-- produce a summary list of revenue raised by customer  --> 
+	<form method="get" action="sumListUser.jsp">
+		<input type="submit" value="Make a Customer Revenue Summary List">
 	</form>
 <br>
 
