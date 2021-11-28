@@ -22,8 +22,10 @@
 		//Create a SQL statement
 		Statement stmt = con.createStatement();
 		//Get parameters from the HTML form at the SearchFlight.jsp
-
-
+			
+		String select = "SELECT * "
+				+"FROM flightBy f, flightticketfor t " 
+				+"WHERE f.flightNum = t.flightNum";
 
 
 		PreparedStatement ps = con.prepareStatement(select);
