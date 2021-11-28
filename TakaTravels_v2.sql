@@ -52,7 +52,7 @@ DROP TABLE IF EXISTS `Questions`;
 CREATE TABLE `Questions` (
   `questionNum` int NOT NULL auto_increment,
   `Question` varchar(300),
-  `Answer` varchar(300) DEFAULT 'Not yet answered.',
+  `Answer` varchar(300) DEFAULT 'N/A', /* changed back to N/A, shorter to type out */
   `username` varchar(50) NOT NULL,
   PRIMARY KEY (`questionNum`),
   FOREIGN KEY (`username`) REFERENCES `account` (`username`)
