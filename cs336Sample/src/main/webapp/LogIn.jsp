@@ -40,7 +40,19 @@
 					</form>
 				<br>
 				<%
-			}else if(rs.getInt("type")==2){
+			}
+			else if(rs.getInt("type")==1){
+				%>		
+				<br>
+					<form method="get" action="AdminHomePage.jsp">
+						<input type="submit" value="Home Page!">
+					</form>
+				<br>
+				<%
+			}
+			
+			
+			else if(rs.getInt("type")==2){
 				%>		
 				<br>
 					<form method="get" action="RepHomePage.jsp">
