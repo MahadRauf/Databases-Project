@@ -13,6 +13,10 @@
 		<input type="submit" value="Search Flight">
 	</form>
 <br>
+
+		<form method="get" action="Questions.jsp">
+		<input type="submit" value="Questions">
+		</form>
 	
 <br>
 	<form method="get" action="HelloWorld.jsp">
