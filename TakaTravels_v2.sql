@@ -44,7 +44,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES ('admin','admin',1, 'admin', 'admin', 545),('reps','reps',2, 'reps', 'reps', 434),('user1', 'user1', 0, 'ree','ree', 546),('user2', 'user2', 0, 'reee','reee', 894);
+INSERT INTO `account` VALUES ('admin','admin',1, 'admin', 'admin', 545),('reps','reps',2, 'reps', 'reps', 434),('moeezshahid','moeezshahid',1, 'moeezshahid', 'moeezshahid', 999),('user1', 'user1', 0, 'ree','ree', 546),('user2', 'user2', 0, 'reee','reee', 894);
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
