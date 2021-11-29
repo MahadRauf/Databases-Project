@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Reserve - Representative</title>
+<title>Change Reservation - Representative</title>
 </head>
 <body>
 	<% try {
@@ -16,8 +16,8 @@
 		Connection con = db.getConnection();
 	%>
 	<br>
-	Reserve a Ticket for a Customer
-		<form method="get" action="purchasedForCust.jsp">
+	Cancel a Reservation
+		<form method="get" action="deletedForCust.jsp">
 			<table>
 				<tr>    
 					<td>Customer Username</td><td><input type="text" name="user"></td>
@@ -26,7 +26,7 @@
 					<td>Ticket Number</td><td><input type="text" name="tikNum"></td>
 				</tr>		
 			</table>
-			<input type="submit" value="Reserve">
+			<input type="submit" value="Cancel Reservation">
 		</form>
 	<br>
 	

@@ -21,8 +21,8 @@
 <br>
 
 <br>
-	<form method="get" action="changeForCust.jsp">
-		<input type="submit" value="Edit an existing reservation">
+	<form method="get" action="deleteForCust.jsp">
+		<input type="submit" value="Cancel an existing reservation">
 	</form>
 <br>
 

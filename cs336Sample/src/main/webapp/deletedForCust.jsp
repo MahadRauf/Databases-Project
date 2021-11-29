@@ -11,39 +11,40 @@
 <title>Reserve - Representative</title>
 </head>
 <body>
+	
 	<% try {
 		ApplicationDB db = new ApplicationDB();	
 		Connection con = db.getConnection();
 		String user = request.getParameter("user");
 		Integer tikNum = Integer.valueOf(request.getParameter("tikNum"));
-		String queryNotBought = "SELECT * from buy b WHERE b.ticketNum = ?";
-		PreparedStatement pd = con.prepareStatement(queryNotBought);
+		String queryIsBought = "SELECT * from buy b WHERE b.ticketNum = ? AND b.username = ?";
+		PreparedStatement pd = con.prepareStatement(queryIsBought);
 		pd.setInt(1, tikNum);
+		pd.setString(2, user);
 		ResultSet rs = pd.executeQuery();
-		if ( !rs.isBeforeFirst() ) {
-			String queryExists = "SELECT * FROM flightticketfor f WHERE f.ticketNum = ?";
+		if ( rs.isBeforeFirst() ) {
+			String queryExists = "SELECT f.class AS class FROM flightticketfor f WHERE f.ticketNum = ?";
 			PreparedStatement pd1 = con.prepareStatement(queryExists);
 			pd1.setInt(1, tikNum);
 			ResultSet rs1 = pd1.executeQuery();
-			// maybe also check that the customer exists
 			if( rs1.isBeforeFirst() ){
-				String queryBuy = "INSERT INTO buy VALUES (?, ?, ?, ?)";
-				PreparedStatement pd2 = con.prepareStatement(queryBuy);
-				java.util.Date date = new java.util.Date();
-				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-				String fTime = sdf.format(date);
+				rs1.next();
+				Integer fClass = Integer.valueOf(rs1.getString("class"));
+				
+				String queryDelete = "DELETE FROM buy AS b WHERE b.ticketNum = ? AND b.username = ?";
+				PreparedStatement pd2 = con.prepareStatement(queryDelete);
 				
 				
-				SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-				String fDate = sdf1.format(date);
-				
-				pd2.setString(1, user);
-				pd2.setInt(2, tikNum);
-				pd2.setString(3, fDate);
-				pd2.setString(4, fTime);
+				pd2.setInt(1, tikNum);
+				pd2.setString(2, user);
 				
 				pd2.executeUpdate();
-				out.print("ticket number " + tikNum + " bought at " + fDate + " " + fTime + " for " + user + "\n");
+				out.print("reservation for ticket number " + tikNum + " cancelled " + "for " + user + "\n");%>
+				<br>
+				<%
+				if(fClass == 0){
+					out.println("user must pay a cancellation fee \n");
+				}
 				
 			}else{
 				out.print("no such ticket \n");
@@ -52,13 +53,13 @@
 			
 		     
 		}else{ 
-			out.print("selected ticket has already been purchased by some user \n");
+			out.print("no such reservation exists \n");
 		}
 	%>
 	<br>
 	<br>
-		<form method="get" action="buyForCust.jsp">
-			<input type="submit" value="Reserve More Flights">
+		<form method="get" action="deleteForCust.jsp">
+			<input type="submit" value="Cancel More Flights">
 		</form>
 	<br>
 	
