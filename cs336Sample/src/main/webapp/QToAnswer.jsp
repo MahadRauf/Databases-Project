@@ -12,7 +12,6 @@
 </head>
 <body>
 	<% try {
-		out.print("At search Result\n");
 		//Get the database connection
 		ApplicationDB db = new ApplicationDB();	
 		Connection con = db.getConnection();
