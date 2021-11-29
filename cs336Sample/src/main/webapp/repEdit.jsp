@@ -43,6 +43,12 @@ Edit Customer Representative info
 	</form>
 <br>
 
+<br> <!-- delete rep  --> 
+	<form method="get" action="repDelete.jsp">
+		<input type="submit" value="Delete a Customer Representative Account">
+	</form>
+<br>
+
 
 <br> <!-- return to admin homepage(DONE)  --> 
 	<form method="get" action="AdminHomePage.jsp">
