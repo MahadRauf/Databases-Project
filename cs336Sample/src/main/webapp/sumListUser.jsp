@@ -53,6 +53,49 @@
 				</tr>
 	
 	</table>
+	<%
+	String query = "SELECT f.ticketNum AS tn, f.totalFare AS tf, f.bookingFee AS bf, f.class AS class FROM flightticketfor f, buy b  WHERE f.ticketNum = b.ticketNum AND b.username = ?";
+	PreparedStatement ps1 = con.prepareStatement(query);
+	ps1.setString(1, user);
+	
+	ResultSet result = ps1.executeQuery();
+	%>
+	<table>
+	<tr>    
+			<td>Ticket Number</td>
+			<td>Fare</td>
+			<td>Booking Fee</td>
+			<td>Class</td>
+		</tr>
+			<%
+			//parse out the results
+			//we are using fromy and tom cause from and to will not work as they are keywords in sql smh >:(
+			while (result.next()) { 
+				Integer fClass = Integer.valueOf(result.getString("class"));
+				String classType;
+				switch (fClass) {
+		        case 0:  classType = "Economy";
+		                 break;
+		        case 1:  classType = "Business";
+		                 break;
+		        case 2:  classType = "First";
+		                 break;
+		        default: classType = "Invalid";
+		                 break;
+		    }
+				
+			%>
+				<tr>    
+					<td><%= result.getString("tn")%></td>
+					<td><%= result.getString("tf") %></td>
+					<td><%= result.getString("bf") %></td>
+					<td><%= classType%></td>
+				</tr>
+				
+
+			<% }%>
+	
+	</table>
 	
 	<br>
 		<form method="get" action="AdminHomePage.jsp">
