@@ -21,7 +21,6 @@
 		float flightNum = Float.valueOf(request.getParameter("flightNum"));
 		int ff = (int)flightNum;
 		out.print("Revenue Summary for Flight " + ff);		
-		//String query = "SELECT a.username AS username, a.password AS password, a.firstname AS firstname, a.lastname AS lastname FROM account a WHERE a.type=0";
 		
 		//flightticketfor		
 		out.print("\n");
@@ -52,6 +51,49 @@
 					<td><%= totalSold%></td>
 					
 				</tr>
+	
+	</table>
+	<%
+	String query = "SELECT f.ticketNum AS tn, f.totalFare AS tf, f.bookingFee AS bf, f.class AS class FROM flightticketfor f, buy b  WHERE f.ticketNum = b.ticketNum AND f.flightNum = ?";
+	PreparedStatement ps1 = con.prepareStatement(query);
+	ps1.setFloat(1, flightNum);
+	
+	ResultSet result = ps1.executeQuery();
+	%>
+	<table>
+	<tr>    
+			<td>Ticket Number</td>
+			<td>Fare</td>
+			<td>Booking Fee</td>
+			<td>Class</td>
+		</tr>
+			<%
+			//parse out the results
+			//we are using fromy and tom cause from and to will not work as they are keywords in sql smh >:(
+			while (result.next()) { 
+				Integer fClass = Integer.valueOf(result.getString("class"));
+				String classType;
+				switch (fClass) {
+		        case 0:  classType = "Economy";
+		                 break;
+		        case 1:  classType = "Business";
+		                 break;
+		        case 2:  classType = "First";
+		                 break;
+		        default: classType = "Invalid";
+		                 break;
+		    }
+				
+			%>
+				<tr>    
+					<td><%= result.getString("tn")%></td>
+					<td><%= result.getString("tf") %></td>
+					<td><%= result.getString("bf") %></td>
+					<td><%= classType%></td>
+				</tr>
+				
+
+			<% }%>
 	
 	</table>
 	
