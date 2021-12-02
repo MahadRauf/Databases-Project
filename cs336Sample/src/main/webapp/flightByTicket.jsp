@@ -23,9 +23,10 @@
 		
 		//flightticketfor		
 		out.print("\n");
-		String select = "SELECT t1.flightNum AS flightNum, t1.ticketsSold AS ticketsSold, t1.airlineID AS airlineID FROM (SELECT f.flightNum AS flightNum, COUNT(f.ticketNum) AS ticketsSold, f.twoLetID AS airlineID FROM buy b, flightticketfor f WHERE b.ticketNum = f.ticketNum)t1 HAVING ticketsSold = MAX(t1.ticketsSold)";
+		String select = "SELECT t1.flightNum AS flightNum, t1.ticketsSold AS ticketsSold, t1.airlineID AS airlineID FROM (SELECT f.flightNum AS flightNum, COUNT(f.ticketNum) AS ticketsSold, f.twoLetID AS airlineID FROM buy b, flightticketfor f WHERE b.ticketNum = f.ticketNum GROUP BY flightNum)t1 ORDER BY ticketsSold DESC";
 		PreparedStatement ps = con.prepareStatement(select);
-		//select t1.user AS user, t1.revenue AS revenue, t1.fees AS fees FROM (SELECT b.username AS user, SUM(totalFare) AS revenue, SUM(bookingFee) AS fees FROM buy b, flightticketfor f WHERE b.ticketNum = f.ticketNum)t1 HAVING revenue = MAX(t1.revenue);
+		//		String select = "SELECT t1.flightNum AS flightNum, t1.ticketsSold AS ticketsSold, t1.airlineID AS airlineID FROM (SELECT f.flightNum AS flightNum, COUNT(f.ticketNum) AS ticketsSold, f.twoLetID AS airlineID FROM buy b, flightticketfor f WHERE b.ticketNum = f.ticketNum GROUP BY flightNum)t1 ORDER BY ticketsSold DESC";
+
 
 		ResultSet rs = ps.executeQuery();
 		out.println("Hottest Flights");
