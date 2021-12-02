@@ -23,27 +23,32 @@
 		
 		//flightticketfor		
 		out.print("\n");
-		String select = "SELECT b.username AS username, total_fare FROM SELECT(SUM(f.totalFare) AS total_fare, SUM(f.bookingFee) AS totalFee, COUNT(f.totalFare) AS totalSold FROM flightticketfor f, buy b  WHERE f.ticketNum = b.ticketNum) WHERE total_fare = MAX(total_fare)";
+		String select = "SELECT t1.user AS user, t1.revenue AS revenue, t1.fees AS fees FROM (SELECT b.username AS user, SUM(totalFare) AS revenue, SUM(bookingFee) AS fees FROM buy b, flightticketfor f WHERE b.ticketNum = f.ticketNum)t1 HAVING revenue = MAX(t1.revenue)";
 		PreparedStatement ps = con.prepareStatement(select);
+		//select t1.user AS user, t1.revenue AS revenue, t1.fees AS fees FROM (SELECT b.username AS user, SUM(totalFare) AS revenue, SUM(bookingFee) AS fees FROM buy b, flightticketfor f WHERE b.ticketNum = f.ticketNum)t1 HAVING revenue = MAX(t1.revenue);
+
 		ResultSet rs = ps.executeQuery();
+		out.println("Costumer who generated most revenue");
 		%>
 	<table>
 	<tr>    
 			<td>User</td>
 			<td>Total Fare</td>
-			
+			<td>Total Fees</td>
 		</tr>
 			<%
 			long totalFare = 0;
+			long totalFees = 0;
 			if (rs.next()) {
 				
-				totalFare = rs.getInt("total_fare");
+				totalFare = rs.getInt("revenue");
+				totalFees = rs.getInt("fees");
 			}		%>
 	
 	<tr>    
-					<td><%= rs.getString("username") %>
+					<td><%= rs.getString("user") %>
 					<td><%= totalFare %></td>
-					
+					<td><%= totalFees %></td>
 					
 				</tr>
 	
