@@ -87,7 +87,7 @@
 				</table>
 			<%	
 			}else{
-				out.print("no flights departing from or arriving to selected airport \n");
+				out.print("no flights departing from or arriving to " + AP + "\n");
 			}
 			
 			
@@ -99,7 +99,7 @@
 	<br>
 	<br>
 		<form method="get" action="APFlights.jsp">
-			<input type="submit" value="View Arrivng/Departing of Other Airports">
+			<input type="submit" value="View Arriving/Departing of Other Airports">
 		</form>
 	<br>
 	
