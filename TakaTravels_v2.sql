@@ -84,7 +84,7 @@ CREATE TABLE `buy` (
   `purchaseTime` time, /* ^thought these should be stored in purchases table and not in tickets lmk */
   PRIMARY KEY (`username`,`ticketNum`),
   FOREIGN KEY (`username`) REFERENCES `account` (`username`),
-  FOREIGN KEY (`ticketNum`) REFERENCES `flightticketfor` (`ticketNum`)
+  FOREIGN KEY (`ticketNum`) REFERENCES `flightticketfor` (`ticketNum`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 INSERT INTO `buy` VALUES ('user1', 0001, '1776-07-04', '23:59'), ('user1', 0002, '1766-11-10', '01:37'), ('user1', 0003, '2020-11-30', '21:14'), ('user1', 0004, '2020-01-06', '17:14'), ('user2', 0005, '2020-11-30', '21:14'), ('user2', 0006, '2020-09-30', '05:55'), ('user2', 0007, '2020-03-06', '13:52'), ('user2', 0008, '2020-05-21', '09:10');
@@ -101,7 +101,7 @@ CREATE TABLE `waits` (
 
   PRIMARY KEY (`username`,`ticketNum`),
   FOREIGN KEY (`username`) REFERENCES `account` (`username`),
-  FOREIGN KEY (`ticketNum`) REFERENCES `flightticketfor` (`ticketNum`)
+  FOREIGN KEY (`ticketNum`) REFERENCES `flightticketfor` (`ticketNum`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 --
@@ -129,7 +129,9 @@ CREATE TABLE `flightticketfor` (
   
   PRIMARY KEY (`ticketNum`),
   FOREIGN KEY (`twoLetID`, `AircraftID`, `flightNum`) 
-  REFERENCES `flightBy` (`twoLetID`,`AircraftID`,`flightNum`)
+  REFERENCES `flightBy` (`twoLetID`,`AircraftID`,`flightNum`) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (`twoLetID`, `AircraftID`, `flightNum2`) 
+  REFERENCES `flightBy` (`twoLetID`,`AircraftID`,`flightNum`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 LOCK TABLES `flightticketfor` WRITE;
@@ -246,7 +248,7 @@ CREATE TABLE `aircraft` (
   
   PRIMARY KEY (`twoLetID`,`AircraftID`),
   FOREIGN KEY (`twoLetID`) 
-  REFERENCES `airlineCompany` (`twoLetID`)
+  REFERENCES `airlineCompany` (`twoLetID`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 LOCK TABLES `aircraft` WRITE;
@@ -300,7 +302,7 @@ CREATE TABLE `flightBy` (
   
   PRIMARY KEY (`twoLetID`,`AircraftID`,`flightNum`),
   FOREIGN KEY (`twoLetID`,`AircraftID`) 
-  REFERENCES `aircraft` (`twoLetID`,`AircraftID`)
+  REFERENCES `aircraft` (`twoLetID`,`AircraftID`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 LOCK TABLES `flightBy` WRITE;
@@ -340,8 +342,8 @@ CREATE TABLE `operates` (
   `threeLetID` varchar(3) NOT NULL,
   `twoLetID` varchar(2) NOT NULL,
   PRIMARY KEY (`threeLetID`,`twoLetID`),
-  FOREIGN KEY (`threeLetID`) REFERENCES `airport` (`threeLetID`),
-  FOREIGN KEY (`twoLetID`) REFERENCES `airlineCompany` (`twoLetID`)
+  FOREIGN KEY (`threeLetID`) REFERENCES `airport` (`threeLetID`) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (`twoLetID`) REFERENCES `airlineCompany` (`twoLetID`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 LOCK TABLES `operates` WRITE;
 /*!40000 ALTER TABLE `operates` DISABLE KEYS */;
