@@ -11,11 +11,18 @@
 <title>Search Result</title>
 </head>
 <body>
+<h3>Show All Flight Tickets</h3>
+<form method="get" action="FlightDetails.jsp">
+	Buy a ticket:
+	<input type="text" name="ticketNumToBuy">
+	<input type="submit" value="Buy">
+</form>
+<br>
 	<%
 
 	try {
-		out.print("At search All");
-		out.print("<br>");
+		//out.print("At search All");
+		//out.print("<br>");
 		//Get the database connection
 		ApplicationDB db = new ApplicationDB();	
 		Connection con = db.getConnection();

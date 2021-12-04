@@ -29,7 +29,7 @@
 		ResultSet rs = ps.executeQuery();
 		
 		if(rs.next()){
-			
+			session.setAttribute("user", username); // the username will be stored in the session
 			out.print("Login succeeded!");
 			out.print(rs.getString("username"));
 			if(rs.getInt("type")==0){
