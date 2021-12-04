@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Aircrafts - Representative</title>
+<title>Airports - Representative</title>
 </head>
 <body>
 	<% try {
