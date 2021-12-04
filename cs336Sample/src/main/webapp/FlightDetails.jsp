@@ -8,10 +8,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<h3>Flight Reservations</h3>
 <title>Flight Details</title>
 </head>
 <body>
+<h3>Flight Reservations</h3>
+<form method="get" action="FlightDetails.jsp">
+	Cancel a ticket:
+	<input type="text" name="ticketNumToCancel">
+	<input type="submit" value="Cancel">
+</form>
+<br>
 	<%
 
 	try {
@@ -22,6 +28,17 @@
 		Statement stmt = con.createStatement();
 		String u = (String)session.getAttribute("user");
 		//Get parameters from the HTML form at the SearchFlight.jsp
+		
+		String ticketNumToCancel = request.getParameter("ticketNumToCancel");		
+		if (ticketNumToCancel != null && !ticketNumToCancel.trim().isEmpty()) //Post this data before displaying
+		{
+			String delete = "delete from buy where username = ? AND ticketNum = ?";
+			PreparedStatement ps2 = con.prepareStatement(delete);
+			ps2.setString(1, u);
+			ps2.setInt(2, Integer.parseInt(ticketNumToCancel));
+			request.setAttribute("ticketNumToCancel", null);
+			ps2.executeUpdate();
+		}
 		
 		String ticketNumToBuy = request.getParameter("ticketNumToBuy");		
 		if (ticketNumToBuy != null && !ticketNumToBuy.trim().isEmpty()) //Post this data before displaying
