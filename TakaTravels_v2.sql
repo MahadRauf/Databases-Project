@@ -104,6 +104,20 @@ CREATE TABLE `waits` (
   FOREIGN KEY (`ticketNum`) REFERENCES `flightticketfor` (`ticketNum`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `waits` WRITE;
+/*!40000 ALTER TABLE `waits` DISABLE KEYS */;
+INSERT INTO `waits` VALUES
+
+('user1', 1), ('user1', 2), ('user1', 3),
+('user1', 13), ('user1', 14), ('user1', 15),
+('user1', 25), ('user1', 26), ('user1', 27),
+('user1', 37), ('user1', 38), ('user1', 39),
+
+('user2', 1), ('user2', 2), ('user2', 3),
+('user2', 13), ('user2', 14), ('user2', 15),
+('user2', 25), ('user2', 26), ('user2', 27),
+('user2', 37), ('user2', 38), ('user2', 39);
+UNLOCK TABLES;
 --
 -- Table structure for table `flightticketfor`
 --
