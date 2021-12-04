@@ -11,9 +11,16 @@
 <title>Search Result</title>
 </head>
 <body>
+<h3>Search Results</h3>
+<form method="get" action="FlightDetails.jsp">
+	Buy a ticket:
+	<input type="text" name="ticketNumToBuy">
+	<input type="submit" value="Buy">
+</form>
+<br>
 	<%
 	try {
-		out.print("At search Result\n");
+		//out.print("At Search Result\n");
 		//Get the database connection
 		ApplicationDB db = new ApplicationDB();	
 		Connection con = db.getConnection();
@@ -25,18 +32,18 @@
 		
 		Integer isOneWay = Integer.valueOf(request.getParameter("isOneWay"));
 		Integer isFlexible = Integer.valueOf(request.getParameter("isFlexible"));
-		out.print("After integer\n");
+		//out.print("After integer\n");
 		java.util.Date date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("departureDate")); 
 		java.sql.Date departureDate = new java.sql.Date(date.getTime()); 
 			
-		out.print("After date\n");
+		//out.print("After date\n");
 		
 		String fromAirport = request.getParameter("fromAirport");
 		if(fromAirport.isEmpty()){
 			throw new Exception();
 		}
 		String toAirport = request.getParameter("toAirport");
-		out.print("After string\n");
+		//out.print("After string\n");
 		if(toAirport.isEmpty()){
 			throw new Exception();
 		}
@@ -56,7 +63,7 @@
 		    +"WHERE t.type = ? ";
 		
 		if(isFlexible == 0){
-			out.print("in flexible ");
+			//out.print("in flexible ");
 			select += "AND DATE_SUB(f.departureDate, INTERVAL 3 DAY) <= ? "
 					+ "AND DATE_ADD(f.departureDate, INTERVAL 3 DAY) >= ? ";
 		}else{
@@ -76,7 +83,7 @@
 		
 		HashMap<Integer, String> optional = new HashMap<Integer, String>();
 
-		out.print("before price \n");
+		//out.print("before price \n");
 		Integer priceFilter = Integer.valueOf(request.getParameter("priceFilter"));
 		String sprice = request.getParameter("price");
 		if(!sprice.isEmpty()){
@@ -173,11 +180,11 @@
 				break;
 		}
 				
-		out.print("before prepare");
+		//out.print("before prepare");
 		
 		select = beginselect + select;
 		
-		out.print(select);
+		//out.print(select);
 		
 		
 		int index = 1;
@@ -222,7 +229,7 @@
 		}
 			
 		
-		out.print("before result");
+		//out.print("before result");
 		ResultSet rs = ps.executeQuery();
 		
 		//Make an HTML table to show the results in:
