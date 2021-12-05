@@ -27,8 +27,9 @@
 		//Create a SQL statement
 		Statement stmt = con.createStatement();
 		String u = (String)session.getAttribute("user");
-		//Get parameters from the HTML form at the SearchFlight.jsp
-		
+
+
+		//Handling request to CANCEL ticket
 		String ticketNumToCancel = request.getParameter("ticketNumToCancel");		
 		if (ticketNumToCancel != null && !ticketNumToCancel.trim().isEmpty()) //Post this data before displaying
 		{
@@ -40,17 +41,132 @@
 			ps2.executeUpdate();
 		}
 		
+		//Handling request to BUY ticket
 		String ticketNumToBuy = request.getParameter("ticketNumToBuy");		
 		if (ticketNumToBuy != null && !ticketNumToBuy.trim().isEmpty()) //Post this data before displaying
 		{
-			String insert = "INSERT INTO `buy` VALUES (?, ?, curdate(), curtime())";
-			PreparedStatement ps1 = con.prepareStatement(insert);
-			ps1.setString(1, u);
-			ps1.setInt(2, Integer.parseInt(ticketNumToBuy));
-			request.setAttribute("ticketNumToBuy", null);
-			ps1.executeUpdate();
-		}
+			//Get flightNum from ticketNum
+			String fn = "select flightNum from flightticketfor where ticketNum = ?;";
+			PreparedStatement ps3 = con.prepareStatement(fn);
+			ps3.setInt(1, Integer.parseInt(ticketNumToBuy));
+			ResultSet rs3 = ps3.executeQuery();
+			int flightNumber = 0;
+			if (rs3.next())
+				flightNumber = rs3.getInt("flightNum");
+			//out.print(flightNumber);
 			
+			//Finding the number of taken seats for a flight
+			String ts = "select count(flightNum) from flightticketfor t join buy b on b.ticketNum = t.ticketNum where flightNum = ?;";
+			PreparedStatement ps4 = con.prepareStatement(ts);
+			ps4.setInt(1, flightNumber);
+			ResultSet rs4 = ps4.executeQuery();
+			int takenSeats = 0;
+			if (rs4.next())
+				takenSeats = rs4.getInt("count(flightNum)");
+			//out.print(takenSeats);
+			
+			//Finding out how many seats are on the aircraft
+			String ns = "select seats from aircraft a where a.AircraftID = (select AircraftID from flightby f where f.flightNum= ?) " +
+					"AND a.twoLetID = (select twoLetID from flightby f where f.flightNum= ?);";
+			PreparedStatement ps5 = con.prepareStatement(ns);
+			ps5.setInt(1, flightNumber);
+			ps5.setInt(2, flightNumber);
+			ResultSet rs5 = ps5.executeQuery();
+			int numSeats = 0;
+			if (rs5.next())
+				numSeats = rs5.getInt("seats");
+			//out.print(numSeats);
+			
+			if (takenSeats < numSeats)
+			{
+				//Buy Ticket
+				String insert = "INSERT INTO `buy` VALUES (?, ?, curdate(), curtime())";
+				PreparedStatement ps1 = con.prepareStatement(insert);
+				ps1.setString(1, u);
+				ps1.setInt(2, Integer.parseInt(ticketNumToBuy));
+				request.setAttribute("ticketNumToBuy", null);
+				ps1.executeUpdate();
+				
+				//Remove from waiting list
+				String delete = "delete from waits where username = ? AND ticketNum = ?";
+				PreparedStatement ps2 = con.prepareStatement(delete);
+				ps2.setString(1, u);
+				ps2.setInt(2, Integer.parseInt(ticketNumToBuy));
+				request.setAttribute("ticketNumToBuy", null);
+				ps2.executeUpdate();
+			}
+			else //Enter on Waiting List
+			{
+				
+				String inswait = "INSERT INTO `waits` VALUES (?, ?);";
+				PreparedStatement ps6 = con.prepareStatement(inswait);
+				ps6.setString(1, u);
+				ps6.setInt(2, flightNumber);
+				ps6.executeUpdate();
+				
+				out.print("You've been entered on the waiting list for flight number " + flightNumber);
+				out.print("<br>");
+			}
+		}
+		
+		//Checking Wait List
+		String wl = "select ticketNum from waits where username = ?;";
+		PreparedStatement ps7 = con.prepareStatement(wl);
+		ps7.setString(1, u);
+		ResultSet rs7 = ps7.executeQuery();
+		int wlticket = 0;
+		List<Integer> list = new ArrayList<Integer>();
+		while (rs7.next())
+		{
+			wlticket = rs7.getInt("ticketNum");
+			//Get flightNum from ticketNum
+			String fn = "select flightNum from flightticketfor where ticketNum = ?;";
+			PreparedStatement ps3 = con.prepareStatement(fn);
+			ps3.setInt(1, wlticket);
+			ResultSet rs3 = ps3.executeQuery();
+			int flightNumber = 0;
+			if (rs3.next())
+				flightNumber = rs3.getInt("flightNum");
+			//out.print(flightNumber);
+			
+			//Finding the number of taken seats for a flight
+			String ts = "select count(flightNum) from flightticketfor t join buy b on b.ticketNum = t.ticketNum where flightNum = ?;";
+			PreparedStatement ps4 = con.prepareStatement(ts);
+			ps4.setInt(1, flightNumber);
+			ResultSet rs4 = ps4.executeQuery();
+			int takenSeats = 0;
+			if (rs4.next())
+				takenSeats = rs4.getInt("count(flightNum)");
+			//out.print(takenSeats);
+			
+			//Finding out how many seats are on the aircraft
+			String ns = "select seats from aircraft a where a.AircraftID = (select AircraftID from flightby f where f.flightNum= ?) " +
+					"AND a.twoLetID = (select twoLetID from flightby f where f.flightNum= ?);";
+			PreparedStatement ps5 = con.prepareStatement(ns);
+			ps5.setInt(1, flightNumber);
+			ps5.setInt(2, flightNumber);
+			ResultSet rs5 = ps5.executeQuery();
+			int numSeats = 0;
+			if (rs5.next())
+				numSeats = rs5.getInt("seats");
+			//out.print(numSeats);
+			
+			if (takenSeats < numSeats)
+			{
+				list.add(wlticket);
+			}
+			
+		}
+		if (!list.isEmpty())
+			out.print("There is an open seat for tickets(s) ");
+		for (int i = 0; i < list.size(); i++)
+		{
+			out.print(list.get(i) + " ");
+		}
+		if (!list.isEmpty())
+			out.print("<br><br>");
+			
+		
 		//String select = "select t.*, f.* from flightticketfor t inner join buy b where t.ticketNum = b.ticketNum AND b.username = 'user1'";
 		String select = "select t.*, f.*, b.purchaseDate, b.purchaseTime from flightBy f join flightticketfor t on f.flightNum = t.flightNum join buy b on "
 				+ "b.ticketNum = t.ticketNum where b.username = ? AND CURDATE() <= arrivalDate order by departureDate, takeoff";
