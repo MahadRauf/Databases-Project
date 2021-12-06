@@ -87,7 +87,7 @@ CREATE TABLE `buy` (
   FOREIGN KEY (`ticketNum`) REFERENCES `flightticketfor` (`ticketNum`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-INSERT INTO `buy` VALUES ('user1', 0001, '1776-07-04', '23:59'), ('user1', 0002, '1766-11-10', '01:37'), ('user1', 0003, '2020-11-30', '21:14'), ('user1', 0004, '2020-01-06', '17:14'), ('user1', 53, '2020-01-06', '17:14') , ('user2', 0005, '2020-11-30', '21:14'), ('user2', 0006, '2020-09-30', '05:55'), ('user2', 0007, '2020-03-06', '13:52'), ('user2', 0008, '2020-05-21', '09:10');
+INSERT INTO `buy` VALUES ('user1', 0001, '1776-07-04', '23:59'), ('user1', 0002, '1766-11-10', '01:37'), ('user1', 0003, '2020-11-30', '21:14'), ('user1', 0004, '2020-01-06', '17:14'), ('user2', 0013, '2020-11-30', '21:14'), ('user2', 0014, '2020-09-30', '05:55'), ('user2', 0015, '2020-03-06', '13:52'), ('user2', 0016, '2020-05-21', '09:10');
 --
 -- Table structure for table `waits`
 --
