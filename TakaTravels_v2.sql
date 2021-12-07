@@ -87,7 +87,7 @@ CREATE TABLE `buy` (
   FOREIGN KEY (`ticketNum`) REFERENCES `flightticketfor` (`ticketNum`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-INSERT INTO `buy` VALUES ('user1', 0001, '1776-07-04', '23:59'), ('user1', 0002, '1766-11-10', '01:37'), ('user1', 0003, '2020-11-30', '21:14'), ('user1', 0004, '2020-01-06', '17:14'), ('user1', 53, '2020-01-06', '17:14') , ('user2', 0005, '2020-11-30', '21:14'), ('user2', 0006, '2020-09-30', '05:55'), ('user2', 0007, '2020-03-06', '13:52'), ('user2', 0008, '2020-05-21', '09:10');
+-- INSERT INTO `buy` VALUES ('user1', 0001, '1776-07-04', '23:59'), ('user1', 0002, '1766-11-10', '01:37'), ('user1', 0003, '2020-11-30', '21:14'), ('user1', 0004, '2020-01-06', '17:14'), ('user1', 53, '2020-01-06', '17:14') , ('user2', 0005, '2020-11-30', '21:14'), ('user2', 0006, '2020-09-30', '05:55'), ('user2', 0007, '2020-03-06', '13:52'), ('user2', 0008, '2020-05-21', '09:10');
 --
 -- Table structure for table `waits`
 --
@@ -106,17 +106,17 @@ CREATE TABLE `waits` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 LOCK TABLES `waits` WRITE;
 /*!40000 ALTER TABLE `waits` DISABLE KEYS */;
-INSERT INTO `waits` VALUES
+-- INSERT INTO `waits` VALUES
 
-('user1', 1), ('user1', 2), ('user1', 3),
-('user1', 13), ('user1', 14), ('user1', 15),
-('user1', 25), ('user1', 26), ('user1', 27),
-('user1', 37), ('user1', 38), ('user1', 39),
+-- ('user1', 1), ('user1', 2), ('user1', 3),
+-- ('user1', 13), ('user1', 14), ('user1', 15),
+-- ('user1', 25), ('user1', 26), ('user1', 27),
+-- ('user1', 37), ('user1', 38), ('user1', 39),
 
-('user2', 1), ('user2', 2), ('user2', 3),
-('user2', 13), ('user2', 14), ('user2', 15),
-('user2', 25), ('user2', 26), ('user2', 27),
-('user2', 37), ('user2', 38), ('user2', 39);
+-- ('user2', 1), ('user2', 2), ('user2', 3),
+-- ('user2', 13), ('user2', 14), ('user2', 15),
+-- ('user2', 25), ('user2', 26), ('user2', 27),
+-- ('user2', 37), ('user2', 38), ('user2', 39);
 UNLOCK TABLES;
 --
 -- Table structure for table `flightticketfor`
@@ -322,6 +322,7 @@ CREATE TABLE `flightBy` (
 LOCK TABLES `flightBy` WRITE;
 /*!40000 ALTER TABLE `flightBy` DISABLE KEYS */;
 INSERT INTO `flightBy` VALUES 
+(0, 'AA', 1, 'EWR', 'LAX', '2021-1-1', '2021-1-2', 0, '5:00', '11:00',4),
 (1, 'AA', 1, 'EWR', 'LAX', '2021-1-1', '2021-1-2', 0, '5:00', '11:00',4),
 (2, 'AA', 1, 'LAX', 'EWR', '2022-1-3', '2022-1-4', 0, '5:00', '10:00',4),
 (3, 'AA', 1, 'JFK', 'LAX', '2022-1-1', '2022-1-2', 0, '8:00', '13:00',4),

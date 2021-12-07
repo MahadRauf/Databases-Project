@@ -33,18 +33,28 @@
 		String ticketNumToCancel = request.getParameter("ticketNumToCancel");		
 		if (ticketNumToCancel != null && !ticketNumToCancel.trim().isEmpty()) //Post this data before displaying
 		{
+			//Delete from buy
 			String delete = "delete from buy where username = ? AND ticketNum = ?";
 			PreparedStatement ps2 = con.prepareStatement(delete);
 			ps2.setString(1, u);
 			ps2.setInt(2, Integer.parseInt(ticketNumToCancel));
 			request.setAttribute("ticketNumToCancel", null);
 			ps2.executeUpdate();
+			
+			//Delete from flightticketfor
+			String delete2 = "delete from flightticketfor where ticketNum = ?;";
+			PreparedStatement ps3 = con.prepareStatement(delete2);
+			ps3.setInt(1, Integer.parseInt(ticketNumToCancel));
+			request.setAttribute("ticketNumToCancel", null);
+			ps3.executeUpdate();
 		}
 		
 		//Handling request to BUY ticket
 		String ticketNumToBuy = request.getParameter("ticketNumToBuy");		
 		if (ticketNumToBuy != null && !ticketNumToBuy.trim().isEmpty()) //Post this data before displaying
 		{
+		//FlightNum	
+		
 			//Get flightNum from ticketNum
 			String fn = "select flightNum from flightticketfor where ticketNum = ?;";
 			PreparedStatement ps3 = con.prepareStatement(fn);
@@ -55,7 +65,7 @@
 				flightNumber = rs3.getInt("flightNum");
 			//out.print(flightNumber);
 			
-			//Finding the number of taken seats for a flight
+			//Finding the number of taken seats for a flightnum
 			String ts = "select count(flightNum) from flightticketfor t join buy b on b.ticketNum = t.ticketNum where flightNum = ?;";
 			PreparedStatement ps4 = con.prepareStatement(ts);
 			ps4.setInt(1, flightNumber);
@@ -63,6 +73,12 @@
 			int takenSeats = 0;
 			if (rs4.next())
 				takenSeats = rs4.getInt("count(flightNum)");
+			String ts2 = "select count(flightNum2) from flightticketfor t join buy b on b.ticketNum = t.ticketNum where flightNum2 = ?;";
+			PreparedStatement ps42 = con.prepareStatement(ts2);
+			ps42.setInt(1, flightNumber);
+			ResultSet rs42 = ps42.executeQuery();
+			if (rs42.next())
+				takenSeats += rs42.getInt("count(flightNum2)");
 			//out.print(takenSeats);
 			
 			//Finding out how many seats are on the aircraft
@@ -76,8 +92,51 @@
 			if (rs5.next())
 				numSeats = rs5.getInt("seats");
 			//out.print(numSeats);
+		
+		//FlightNum2
+
+			//Get flightNum2 from ticketNum
+			String fn2 = "select flightNum2 from flightticketfor where ticketNum = ?;";
+			PreparedStatement ps32 = con.prepareStatement(fn2);
+			ps32.setInt(1, Integer.parseInt(ticketNumToBuy));
+			ResultSet rs32 = ps32.executeQuery();
+			int flightNumber2 = 0;
+			if (rs32.next())
+				flightNumber2 = rs32.getInt("flightNum2");
+			//out.print(flightNumber2);
 			
-			if (takenSeats < numSeats)
+			int takenSeats2 = 0;
+			int numSeats2 = 0;
+			if (flightNumber2 != 0)
+			{
+				//Finding the number of taken seats for a flightnum
+				ts = "select count(flightNum) from flightticketfor t join buy b on b.ticketNum = t.ticketNum where flightNum = ?;";
+				PreparedStatement pst4 = con.prepareStatement(ts);
+				pst4.setInt(1, flightNumber2);
+				ResultSet rst4 = pst4.executeQuery();
+				if (rst4.next())
+					takenSeats2 = rst4.getInt("count(flightNum)");
+				ts2 = "select count(flightNum2) from flightticketfor t join buy b on b.ticketNum = t.ticketNum where flightNum2 = ?;";
+				PreparedStatement pst42 = con.prepareStatement(ts2);
+				pst42.setInt(1, flightNumber2);
+				ResultSet rst42 = pst42.executeQuery();
+				if (rst42.next())
+					takenSeats2 += rst42.getInt("count(flightNum2)");
+				//out.print(takenSeats2);
+				
+				//Finding out how many seats are on the aircraft
+				ns = "select seats from aircraft a where a.AircraftID = (select AircraftID from flightby f where f.flightNum= ?) " +
+						"AND a.twoLetID = (select twoLetID from flightby f where f.flightNum= ?);";
+				PreparedStatement pst5 = con.prepareStatement(ns);
+				pst5.setInt(1, flightNumber2);
+				pst5.setInt(2, flightNumber2);
+				ResultSet rst5 = pst5.executeQuery();
+				if (rst5.next())
+					numSeats2 = rst5.getInt("seats");
+				//out.print(numSeats2);
+			}
+			
+			if (takenSeats < numSeats && (flightNumber2 == 0 || takenSeats2 < numSeats2))
 			{
 				//Buy Ticket
 				String insert = "INSERT INTO `buy` VALUES (?, ?, curdate(), curtime())";
@@ -88,24 +147,73 @@
 				ps1.executeUpdate();
 				
 				//Remove from waiting list
-				String delete = "delete from waits where username = ? AND ticketNum = ?";
-				PreparedStatement ps2 = con.prepareStatement(delete);
-				ps2.setString(1, u);
-				ps2.setInt(2, Integer.parseInt(ticketNumToBuy));
+				//if (flightNumber2 == 0)
+				//{
+				//	String delete = "delete from waits where username = ? AND ticketNum in (select t.ticketNum from flightticketfor t where t.flightNum = ?);";
+				//	PreparedStatement ps2 = con.prepareStatement(delete);
+				//	ps2.setString(1, u);
+				//	ps2.setInt(2, flightNumber);
+				//	request.setAttribute("ticketNumToBuy", null);
+				//	ps2.executeUpdate();
+				//}
+				//else if (flightNumber2 > 0)
+				//{
+					String delete = "delete from waits where username = ? AND ticketNum in (select t.ticketNum from flightticketfor t where t.flightNum = ? AND t.flightNum2 = ?);";
+					PreparedStatement ps2 = con.prepareStatement(delete);
+					ps2.setString(1, u);
+					ps2.setInt(2, flightNumber);
+					ps2.setInt(3, flightNumber2);
+					request.setAttribute("ticketNumToBuy", null);
+					ps2.executeUpdate();
+				//}
+				
+				//Enter new ticket number to plus 100
+				String selectTicket = "select * from flightticketfor where ticketNum = ?";
+				PreparedStatement ps8 = con.prepareStatement(selectTicket);
+				ps8.setInt(1, Integer.parseInt(ticketNumToBuy));
+				ResultSet rs8 = ps8.executeQuery();
+				
+				String insert2 = "insert into flightticketfor values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+				PreparedStatement ps7 = con.prepareStatement(insert2);
+				if (rs8.next())
+				{
+					ps7.setInt(1, Integer.parseInt(ticketNumToBuy)+100);
+					ps7.setInt(2, rs8.getInt("seatNum")+3);
+					ps7.setFloat(3, rs8.getFloat("totalFare"));
+					ps7.setFloat(4, rs8.getFloat("bookingFee"));
+					ps7.setInt(5, rs8.getInt("class"));
+					ps7.setInt(6, rs8.getInt("type"));
+					ps7.setString(7, rs8.getString("from"));
+					ps7.setString(8, rs8.getString("to"));
+					ps7.setString(9, rs8.getString("twoLetID"));
+					ps7.setInt(10, rs8.getInt("AircraftID"));
+					ps7.setInt(11, rs8.getInt("flightNum"));
+					ps7.setInt(12, rs8.getInt("flightNum2"));
+				}
 				request.setAttribute("ticketNumToBuy", null);
-				ps2.executeUpdate();
+				ps7.executeUpdate();
 			}
 			else //Enter on Waiting List
 			{
-				
 				String inswait = "INSERT INTO `waits` VALUES (?, ?);";
 				PreparedStatement ps6 = con.prepareStatement(inswait);
 				ps6.setString(1, u);
-				ps6.setInt(2, flightNumber);
-				ps6.executeUpdate();
-				
-				out.print("You've been entered on the waiting list for flight number " + flightNumber);
-				out.print("<br>");
+				ps6.setInt(2, Integer.parseInt(ticketNumToBuy));
+				try {
+					ps6.executeUpdate();
+					out.print("You've been entered on the waiting list for flight number(s)");
+					if (takenSeats >= numSeats)
+						out.print(" " + flightNumber);
+					if (flightNumber2 != 0 && takenSeats2 >= numSeats2)
+						out.print(" " + flightNumber2);
+					out.print("<br><br>");
+				}
+				catch (Exception ex) {
+					out.print("You are already in the waiting list for this flight.");
+					out.print("<br><br>");
+					//out.print(ex);
+				}
+				request.setAttribute("ticketNumToBuy", null);
 			}
 		}
 		
@@ -129,7 +237,7 @@
 				flightNumber = rs3.getInt("flightNum");
 			//out.print(flightNumber);
 			
-			//Finding the number of taken seats for a flight
+			//Finding the number of taken seats for a flightnum
 			String ts = "select count(flightNum) from flightticketfor t join buy b on b.ticketNum = t.ticketNum where flightNum = ?;";
 			PreparedStatement ps4 = con.prepareStatement(ts);
 			ps4.setInt(1, flightNumber);
@@ -137,6 +245,12 @@
 			int takenSeats = 0;
 			if (rs4.next())
 				takenSeats = rs4.getInt("count(flightNum)");
+			String ts2 = "select count(flightNum2) from flightticketfor t join buy b on b.ticketNum = t.ticketNum where flightNum2 = ?;";
+			PreparedStatement ps42 = con.prepareStatement(ts2);
+			ps42.setInt(1, flightNumber);
+			ResultSet rs42 = ps42.executeQuery();
+			if (rs42.next())
+				takenSeats += rs42.getInt("count(flightNum2)");
 			//out.print(takenSeats);
 			
 			//Finding out how many seats are on the aircraft
@@ -150,15 +264,67 @@
 			if (rs5.next())
 				numSeats = rs5.getInt("seats");
 			//out.print(numSeats);
-			
-			if (takenSeats < numSeats)
+
+			//Get flightNum2 from ticketNum
+			String fn2 = "select flightNum2 from flightticketfor where ticketNum = ?;";
+			PreparedStatement ps32 = con.prepareStatement(fn2);
+			ps32.setInt(1, wlticket);
+			ResultSet rs32 = ps32.executeQuery();
+			int flightNumber2 = 0;
+			if (rs32.next())
+				flightNumber2 = rs32.getInt("flightNum2");
+			//out.print(flightNumber2);		
+
+			if (flightNumber2 != 0)
 			{
-				list.add(wlticket);
+				//Finding the number of taken seats for a flightnum
+				ts = "select count(flightNum) from flightticketfor t join buy b on b.ticketNum = t.ticketNum where flightNum = ?;";
+				PreparedStatement pst4 = con.prepareStatement(ts);
+				pst4.setInt(1, flightNumber2);
+				ResultSet rst4 = pst4.executeQuery();
+				int takenSeats2 = 0;
+				if (rst4.next())
+					takenSeats2 = rst4.getInt("count(flightNum)");
+				ts2 = "select count(flightNum2) from flightticketfor t join buy b on b.ticketNum = t.ticketNum where flightNum2 = ?;";
+				PreparedStatement pst42 = con.prepareStatement(ts2);
+				pst42.setInt(1, flightNumber2);
+				ResultSet rst42 = pst42.executeQuery();
+				if (rst42.next())
+					takenSeats2 += rst42.getInt("count(flightNum2)");
+				//out.print(takenSeats2);
+				
+				//Finding out how many seats are on the aircraft
+				String ns2 = "select seats from aircraft a where a.AircraftID = (select AircraftID from flightby f where f.flightNum= ?) " +
+						"AND a.twoLetID = (select twoLetID from flightby f where f.flightNum= ?);";
+				PreparedStatement ps52 = con.prepareStatement(ns2);
+				ps52.setInt(1, flightNumber2);
+				ps52.setInt(2, flightNumber2);
+				ResultSet rs52 = ps52.executeQuery();
+				int numSeats2 = 0;
+				if (rs52.next())
+					numSeats2 = rs52.getInt("seats");
+				//out.print(numSeats);
+				
+				if (takenSeats < numSeats && takenSeats2 < numSeats2)
+				{
+					if (!list.contains(flightNumber))
+						list.add(flightNumber);
+					if (!list.contains(flightNumber2))
+						list.add(flightNumber2);
+				}
+			}
+			else
+			{
+				if (takenSeats < numSeats)
+				{
+					if (!list.contains(flightNumber))
+						list.add(flightNumber);
+				}
 			}
 			
 		}
 		if (!list.isEmpty())
-			out.print("There is an open seat for tickets(s) ");
+			out.print("There is an open seat for flight(s) ");
 		for (int i = 0; i < list.size(); i++)
 		{
 			out.print(list.get(i) + " ");
@@ -189,7 +355,11 @@
 		//make a column
 		out.print("<td>");
 		//print out column header
-		out.print("Ticket Number");
+		out.print("Ticket No.");
+		out.print("</td>");
+		out.print("<td>");
+		//print out column header
+		out.print("Seat No.");
 		out.print("</td>");
 		out.print("<td>");
 		//print out column header
@@ -270,6 +440,9 @@
 				out.print("</td>");
 				out.print("<td>");
 				
+				out.print(rs.getString("seatNum"));
+				out.print("</td>");
+				out.print("<td>");
 				//Print out current bar name:
 				switch(rs.getInt("t.type")){
 					case 0: out.print("One-Way"); break;
@@ -412,7 +585,11 @@
 				//make a column
 				out.print("<td>");
 				//print out column header
-				out.print("Ticket Number");
+				out.print("Ticket No.");
+				out.print("</td>");
+				out.print("<td>");
+				//print out column header
+				out.print("Seat No.");
 				out.print("</td>");
 				out.print("<td>");
 				//print out column header
@@ -493,6 +670,9 @@
 						out.print("</td>");
 						out.print("<td>");
 						
+						out.print(rs.getString("seatNum"));
+						out.print("</td>");
+						out.print("<td>");
 						//Print out current bar name:
 						switch(rs.getInt("t.type")){
 							case 0: out.print("One-Way"); break;

@@ -291,14 +291,25 @@
 				out.print("</td>");
 				//make a price
 
-				
 				out.print("</tr>");
+				
+				//Create set of all bought tickets
+				Set<Integer> set = new HashSet<Integer>();
+				String s = "select ticketNum from buy;";
+				PreparedStatement ps2 = con.prepareStatement(s);
+				ResultSet rs3 = ps2.executeQuery();
+				while (rs3.next())
+					set.add(rs3.getInt("ticketNum"));
 
 				//parse out the results
 				while (rs.next()) {
 
 					//make a column
 					int ticketnum = rs.getInt("ticketNum");
+					//If ticketNum is in the buy table
+					if (set.contains(ticketnum))
+						continue;
+					
 					int type = rs.getInt("t.type");
 					int flightnum = rs.getInt("flightNum");
 					int flightnum2 = rs.getInt("flightNum2");
