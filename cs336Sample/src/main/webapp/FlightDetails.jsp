@@ -16,6 +16,7 @@
 	Cancel a ticket:
 	<input type="text" name="ticketNumToCancel">
 	<input type="submit" value="Cancel">
+	Note: A fee will be applied if you cancel a ticket that is economy.
 </form>
 <br>
 	<%

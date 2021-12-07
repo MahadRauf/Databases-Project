@@ -55,6 +55,13 @@
 			pd1.setInt(3, seats);
 			pd1.setString(4, opDays);
 			pd1.executeUpdate();
+			
+			String queryAdd2 = "INSERT INTO flightby VALUES (0, ?, 1, 'EWR', 'LAX', '2021-1-1', '2023-1-2', 0, '5:00', '11:00',4);";
+			PreparedStatement pd12 = con.prepareStatement(queryAdd2);
+			
+			pd12.setString(1, twoLetID);
+			pd12.executeUpdate();
+			
 			%>
 			<br>
 			<%
