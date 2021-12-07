@@ -32,7 +32,7 @@
 			
 		String select = "SELECT * "
 				+"FROM flightBy f, flightticketfor t " 
-				+"WHERE f.flightNum = t.flightNum";
+				+"WHERE f.flightNum = t.flightNum AND CURDATE() <= departureDate";
 
 
 		PreparedStatement ps = con.prepareStatement(select);
@@ -176,7 +176,7 @@
 					 stmt = con.createStatement();
 					 select = "SELECT * "
 							+"FROM flightBy f " 
-							+"WHERE f.flightNum = ? ";
+							+"WHERE f.flightNum = ? AND CURDATE() <= departureDate";
 
 					 ps = con.prepareStatement(select);
 					 ps.setInt(1, flightnum2);
