@@ -25,8 +25,17 @@
 			PreparedStatement pd1 = con.prepareStatement(queryExists);
 			pd1.setInt(1, tikNum);
 			ResultSet rs1 = pd1.executeQuery();
+			
 			// maybe also check that the customer exists
+			
+			String queryCustExists = "SELECT * FROM account a WHERE a.username = ?";
+			PreparedStatement pd3 = con.prepareStatement(queryCustExists);
+			pd3.setString(1, user);
+			ResultSet rs2 = pd3.executeQuery();
+			
 			if( rs1.isBeforeFirst() ){
+				if( rs2.isBeforeFirst() ){
+					
 				String queryBuy = "INSERT INTO buy VALUES (?, ?, ?, ?)";
 				PreparedStatement pd2 = con.prepareStatement(queryBuy);
 				java.util.Date date = new java.util.Date();
@@ -44,7 +53,10 @@
 				
 				pd2.executeUpdate();
 				out.print("ticket number " + tikNum + " bought at " + fDate + " " + fTime + " for " + user + "\n");
-				
+						
+				}else{
+					out.print("no such user \n");
+				}
 			}else{
 				out.print("no such ticket \n");
 			}
